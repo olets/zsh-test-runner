@@ -1,4 +1,4 @@
-# zsh-test-runner
+# zsh-test-runner ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/zsh-test-runner)
 
 > Straight-forward tests and reports for zsh
 
