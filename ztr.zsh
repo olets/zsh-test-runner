@@ -62,7 +62,7 @@ __ztr_init() { # Set variables.
 		typeset -gir ZTR_COUNT_SKIP
 }
 
-__ztr_test() { # Test <command> [<notes>]. Pretty-print result and notes unless "quiet".
+__ztr_test() { # Test <command> [<description> [<notes>]]. Pretty-print result and notes unless "quiet".
 	emulate -LR zsh
 	__ztr_debugger
 
@@ -70,7 +70,8 @@ __ztr_test() { # Test <command> [<notes>]. Pretty-print result and notes unless 
 	local -i exit_code
 
 	cmd=$1
-	notes=$2
+	description=$2
+	notes=$3
 
 	eval $cmd &>/dev/null
 
@@ -91,7 +92,7 @@ __ztr_test() { # Test <command> [<notes>]. Pretty-print result and notes unless 
 	fi
 
 	if (( ! ZTR_QUIET )); then
-		'builtin' 'echo' "$result $cmd${notes:+\\n    $notes}"
+		'builtin' 'echo' "$result ${description:-$cmd}${notes:+\\n    $notes}"
 	fi
 
 	return $exit_code

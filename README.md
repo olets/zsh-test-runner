@@ -49,11 +49,7 @@ Pretty-print summary of counts.
 
 ### test [--quiet | -q] <command> [<notes>]
 
-Test <command>. Pretty-print result and notes unless "quiet".
-
-If your command will error when passed to `eval`, quote it.
-
-Optionally pass notes as a second parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
+Test `<command>`. Pretty-print result and notes unless "quiet".
 
 ```shell
 % ztr test true
@@ -62,9 +58,7 @@ PASS true
 FAIL false
 ```
 
-If your test will error when passed to `eval`, quote it. If your test has spaces, quote it.
-
-Optionally pass notes as a second parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
+If your command will error when passed to `eval`, quote it.
 
 ```shell
 % ztr test [[ 1 == 1 ]]
@@ -73,16 +67,23 @@ zsh: = not found # same error you get if you run `eval [[ 1 == 1 ]]`
 PASS [[ 1 == 1 ]]
 ```
 
-Optionally pass notes as a second parameter. For example, noting dependencies can help with troubleshooting. In the output notes follow the test result and are indented.
+Optionally pass a description as a second parameter.
+
+```shell
+% ztr test '[[ 1 == 1 ]]' '<description> appears instead of <command>'
+PASS <description> appears instead of <command>
+```
+
+Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
 
 ```shell
 % cat my_tests.ztr
 # --- snip ---
 ztr test 'my_test_10'
 # --- snip ---
-ztr test 'my_test_20' 'Dependencies: my_test_10'
+ztr test 'my_test_20' 'my_test_20' 'Dependencies: my_test_10'
 # --- snip ---
-ztr test 'my_test_30' 'Dependencies: my_test_10'
+ztr test 'my_test_30' 'my_test_30' 'Dependencies: my_test_10'
 # --- snip ---
 
 % ./my_tests.ztr
