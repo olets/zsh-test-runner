@@ -134,6 +134,49 @@ FAIL failing exit code
 1
 ```
 
+Save a test suite and run it from a file:
+
+1. Prepare your test suite. Make sure to include
+
+    ```
+    source $ZTR_PATH
+    ```
+
+    before any calls to `ztr`.
+
+    For example you might end up with
+
+    ```shell
+    % cat suite.ztr
+    source $ZTR_PATH
+    my_test=false
+
+    ztr test true 'my first test'
+    ztr test my_test 'my second test'
+    ztr test 'my_test && true' 'my third test' 'depends on my second test'
+    ztr skip my_other_test 'my other test' '@TODO build the api for this!'
+
+    echo
+    ztr summary
+    ```
+
+1. Run your test suite
+
+    ```shell
+    % zsh suite.ztr # don't miss the `zsh` here
+    PASS my first test
+    FAIL my second test
+    FAIL my third test
+    	depends on my second test
+    SKIP my other test
+    	@TODO build the api for this!
+
+    4 tests total
+    2 (40%) failed
+    1 was skipped
+    1 (20%) passed
+    ```
+
 #### `(--quiet | -q)`
 
 Optionally silence output.
