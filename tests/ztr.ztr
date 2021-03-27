@@ -37,6 +37,17 @@ should_fail() {
 	'builtin' 'print' $result $1
 }
 
+print \\ntrue/false:
+should_pass 'ztr test true'
+should_fail 'ztr test false'
+
+print \\n'[[ ]]':
+should_pass 'ztr test "[[ 1 == 1 ]]"'
+should_fail 'ztr test "[[ 1 == 2 ]]"'
+
+my_cmd='"[[ 1 == 1 ]]"' && should_pass 'ztr test '$my_cmd
+my_cmd='[[ 1 == 2 ]]' && should_fail 'ztr test '$my_cmd''
+
 'builtin' 'print' \\n$(( passes + failures )) tests were run\
 	\\n$passes passed\
 	\\n$failures failed
