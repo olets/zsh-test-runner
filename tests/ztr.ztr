@@ -12,10 +12,10 @@ should_pass() {
 
 	if (( $? )); then
 		(( failures++ ))
-		result="$fg[red]FAILED$reset_color"
+		result="$fg[red]FAIL$reset_color"
 	else
 		(( passes++ ))
-		result="$fg[green]PASSED$reset_color"
+		result="$fg[green]PASS$reset_color"
 	fi
 
 	'builtin' 'print' $result $2
@@ -28,10 +28,10 @@ should_fail() {
 
 	if (( $? )); then
 		(( passes++ ))
-		result="$fg[green]FAILED$reset_color"
+		result="$fg[green]PASS$reset_color"
 	else
 		(( failures++ ))
-		result="$fg[red]PASSED$reset_color"
+		result="$fg[red]FAIL$reset_color"
 	fi
 
 	'builtin' 'print' $result $2
