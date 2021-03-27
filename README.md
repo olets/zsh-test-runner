@@ -10,7 +10,19 @@ Source `ztr.zsh`
 
 ### clear
 
-<!-- Clear counts. -->
+Clear counts.
+
+```shell
+% ztr test true
+PASS true
+% ztr clear
+% ztr test false
+% ztr summary
+1 test total
+1 failed
+0 were skipped
+0 passed
+```
 
 ### skip <test>
 

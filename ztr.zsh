@@ -11,7 +11,11 @@ __ztr_clear() { # Clear counts.
 	emulate -LR zsh
 	__ztr_debugger
 
-	# @TODO
+	typeset -gi +r ZTR_COUNT_SKIP ZTR_COUNT_FAIL ZTR_COUNT_PASS
+	ZTR_COUNT_FAIL=0
+	ZTR_COUNT_PASS=0
+	ZTR_COUNT_SKIP=0
+	typeset -gir ZTR_COUNT_SKIP ZTR_COUNT_FAIL ZTR_COUNT_PASS
 }
 
 __ztr_debugger() { # Print name of caller function.

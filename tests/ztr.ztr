@@ -60,6 +60,19 @@ my_var=2 && should_fail "ztr test '[[ $my_var == 1 ]]'"
 print \\nskip
 should_pass 'ztr skip true'
 should_pass 'ztr skip false'
+should_pass 'ztr skip x && (( ZTR_COUNT_SKIP ))'
+
+print \\nclear passes
+should_pass 'ztr test true && ztr clear && [[ $ZTR_COUNT_PASS == 0 ]]'
+should_fail 'ztr test true && ztr clear && [[ $ZTR_COUNT_PASS == 1 ]]'
+
+print \\nclear failures
+should_pass 'ztr test false || ztr clear && [[ $ZTR_COUNT_FAIL == 0 ]]'
+should_fail 'ztr test false || ztr clear && [[ $ZTR_COUNT_FAIL == 1 ]]'
+
+print \\nclear skips
+should_pass 'ztr skip x && ztr clear && [[ $ZTR_COUNT_SKIP == 0 ]]'
+should_fail 'ztr skip x && ztr clear && [[ $ZTR_COUNT_SKIP == 1 ]]'
 
 'builtin' 'print' \\n$(( passes + failures )) tests were run\
 	\\n$passes passed\
