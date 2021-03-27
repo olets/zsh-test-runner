@@ -8,7 +8,7 @@ Source `ztr.zsh`
 
 ## Commands
 
-### clear
+### `clear`
 
 Clear counts.
 
@@ -24,7 +24,7 @@ PASS true
 0 passed
 ```
 
-### skip <test>
+### `skip <test>`
 
 Skip <command>.
 
@@ -33,7 +33,7 @@ Skip <command>.
 %
 ```
 
-### summary
+### `summary`
 
 Pretty-print summary of counts.
 
@@ -47,7 +47,7 @@ Pretty-print summary of counts.
 1 passed
 ```
 
-### test [--quiet | -q] <command> [<notes>]
+### `test [--quiet | -q] <command> [<notes>]`
 
 Test `<command>`. Pretty-print result and notes unless "quiet".
 
@@ -98,11 +98,11 @@ FAIL my_test_30
 # Ok let's see if fixing my_test_10 fixes my_test_20 and my_test_30
 ```
 
-### ( --help | -h | help)
+### `( --help | -h | help)`
 
 Show the manpage.
 
-### ( --version | -v | version )
+### `( --version | -v | version )`
 
 Print the command name and current version.
 
