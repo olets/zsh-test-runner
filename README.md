@@ -232,6 +232,12 @@ Use `ztr clear` to zero out count variables:
 | ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                 |
 | ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet` |
 
+### Other
+
+| Variable | Type   | Use                                                       |
+| -------- | ------ | --------------------------------------------------------- |
+| ZTR_PATH | string | `source $ZTR_PATH` in scripts that include `ztr` commands |
+
 ## Roadmap
 
 See the [ROADMAP](ROADMAP.md) file.
