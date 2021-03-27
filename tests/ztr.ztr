@@ -8,71 +8,57 @@ typeset -i passes
 should_pass() {
 	local result
 
-	eval $* &>/dev/null
+	eval $1 &>/dev/null
 
 	if (( $? )); then
 		(( failures++ ))
-		result="$fg[red]INCORRECTLY FAILED$reset_color"
+		result="$fg[red]FAILED$reset_color"
 	else
 		(( passes++ ))
-		result="$fg[green]CORRECTLY PASSED$reset_color"
+		result="$fg[green]PASSED$reset_color"
 	fi
 
-	'builtin' 'print' $result $1
+	'builtin' 'print' $result $2
 }
 
 should_fail() {
 	local result
 
-	eval $* &>/dev/null
+	eval $1 &>/dev/null
 
 	if (( $? )); then
 		(( passes++ ))
-		result="$fg[green]CORRECTLY FAILED$reset_color"
+		result="$fg[green]FAILED$reset_color"
 	else
 		(( failures++ ))
-		result="$fg[red]INCORRECTLY PASSED$reset_color"
+		result="$fg[red]PASSED$reset_color"
 	fi
 
-	'builtin' 'print' $result $1
+	'builtin' 'print' $result $2
 }
 
-print \\ntrue/false:
-should_pass 'ztr test true'
-should_fail 'ztr test false'
+should_pass "ztr test true" "true"
+should_fail "ztr test false" "false"
 
-print \\n'[[ ]]':
-should_pass 'ztr test "[[ 1 == 1 ]]"'
-should_fail 'ztr test "[[ 1 == 2 ]]"'
+should_pass 'ztr test "[[ 1 == 1 ]]"' "evaluation, passing"
+should_fail 'ztr test "[[ 1 == 2 ]]"' "evaluation, failing"
 
-print \\ntest saved as variable
-my_cmd='"[[ 1 == 1 ]]"' && should_pass ztr test $my_cmd
-my_cmd='"[[ 1 == 2 ]]"' && should_fail ztr test $my_cmd
+my_cmd='"[[ 1 == 1 ]]"' && should_pass "ztr test $my_cmd" "dynamic command, passing"
+my_cmd='"[[ 1 == 2 ]]"' && should_fail "ztr test $my_cmd" "dynamic command, failing"
 
-print \\nvariables in test, \'\"\"\'
-my_var=1 && should_pass 'ztr test "[[ $my_var == 1 ]]"'
-my_var=2 && should_fail 'ztr test "[[ $my_var == 1 ]]"'
+my_var=1 && should_pass 'ztr test "[[ $my_var == 1 ]]"' "variable evaluation, not expanded in output, passing"
+my_var=2 && should_fail 'ztr test "[[ $my_var == 1 ]]"' "variable evaluation, not expanded in output, failing"
 
-print \\nvariables in test, \"\'\'\"
-my_var=1 && should_pass "ztr test '[[ $my_var == 1 ]]'"
-my_var=2 && should_fail "ztr test '[[ $my_var == 1 ]]'"
+my_var=1 && should_pass "ztr test '[[ $my_var == 1 ]]'" "variable evaluation, expanded in output, passing"
+my_var=2 && should_fail "ztr test '[[ $my_var == 1 ]]'" "variable evaluation, expanded in output, failing"
 
-print \\nskip
-should_pass 'ztr skip true'
-should_pass 'ztr skip false'
-should_pass 'ztr skip x && (( ZTR_COUNT_SKIP ))'
+should_pass "ztr skip true" "skip passes when test would pass"
+should_pass "ztr skip false" "skip passes when test would fail"
+should_pass "ztr skip x && (( ZTR_COUNT_SKIP ))" "skip increments the skip count"
 
-print \\nclear passes
-should_pass 'ztr test true && ztr clear && [[ $ZTR_COUNT_PASS == 0 ]]'
-should_fail 'ztr test true && ztr clear && [[ $ZTR_COUNT_PASS == 1 ]]'
-
-print \\nclear failures
-should_pass 'ztr test false || ztr clear && [[ $ZTR_COUNT_FAIL == 0 ]]'
-should_fail 'ztr test false || ztr clear && [[ $ZTR_COUNT_FAIL == 1 ]]'
-
-print \\nclear skips
-should_pass 'ztr skip x && ztr clear && [[ $ZTR_COUNT_SKIP == 0 ]]'
-should_fail 'ztr skip x && ztr clear && [[ $ZTR_COUNT_SKIP == 1 ]]'
+should_pass 'ztr test false || ztr clear && [[ $ZTR_COUNT_FAIL == 0 ]]' "clear zeros the fail count"
+should_pass 'ztr test true && ztr clear && [[ $ZTR_COUNT_PASS == 0 ]]' "clear zeros the pass count"
+should_pass 'ztr skip x && ztr clear && [[ $ZTR_COUNT_SKIP == 0 ]]' "clear zeros the skip count"
 
 'builtin' 'print' \\n$(( passes + failures )) tests were run\
 	\\n$passes passed\
