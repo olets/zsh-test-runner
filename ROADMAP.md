@@ -24,3 +24,7 @@
     -   [ ] `(--quiet | -q)` behaves as in `ztr test`
     -   [ ] `--summary` runs `ztr summary` after the last queued command
     -   [ ] regardless of whether or not `--summary` is passed, exit code is `$ZTR_COUNT_FAIL`
+
+## Yet more distant future
+
+-   [ ] `ztr run-queue > myfile.log` redirects all output to a file
