@@ -1,0 +1,50 @@
+.TH "ZTR" 1 "March 27 2021" "ztr alpha-1" "User Commands"
+.SH NAME
+ztr \- zsh test runner
+
+.SH SYNOPSIS
+
+\fBztr clear\fR
+
+\fBztr run\fR <\fItest\fR> ([\fI\-\-quiet | \-q\fR])
+
+\fBztr summary\fR
+
+\fBabbr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
+
+.SH DESCRIPTION
+
+\fBztr\fR runs zsh tests, and logs individual and overall results in a human-readable format.
+
+.SH Commands
+
+.IP \(bu
+\fBclear\fR
+
+.\" Clear counts.
+
+.IP \(bu
+\fBrun \fI<test>\fR\fR
+
+.\" Run <test>. Pretty-print result unless "quiet".
+
+.IP \(bu
+\fBsummary\fR
+
+.\" Pretty-print summary of counts.
+
+.IP \(bu
+\fBhelp\fR or \fB\-\-help\fR or \fB\-h\fR
+
+Show the manpage.
+
+.IP \(bu
+\fBversion\fR or \fB\-\-version\fR or \fB\-v\fR
+
+Print the command name and current version.
+
+.\" .SH EXAMPLES
+
+.SH AUTHORS
+
+Henry Bley\-Vroman <olets@olets.dev>
