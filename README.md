@@ -4,7 +4,23 @@
 
 ## Installation
 
-Source `ztr.zsh`
+### Plugin
+
+You can install zsh-test-runner with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
+
+After adding the plugin to the manager, restart zsh:
+
+```shell
+exec zsh
+```
+
+### Manual
+
+Clone this repo and add `source path/to/ztr.zsh` to your `.zshrc` (replace `path/to/` with the correct path). Then restart zsh:
+
+```shell
+exec zsh
+```
 
 ## Commands
 
