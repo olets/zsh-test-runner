@@ -1,12 +1,25 @@
-# zsh-test-runner ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/zsh-test-runner)
+# zsh-test-runner (ztr) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/zsh-test-runner)
 
-> Straight-forward tests and reports for zsh
+> Straight-forward tests and coverage reports for zsh
+
+Features:
+
+-   short and gentle learning curve
+-   run one or more tests on the command line
+-   run one or more tests saved in a test suite file
+-   skip tests
+-   optionally give tests descriptive names
+-   optionally provide notes to tests, for example to list dependencies in the logged output
+-   access cumulative failure, pass, and skip counts as shell variables
+-   print coverage summaries with test count, failure count and rate, pass count and rate, and skip count
+
+What it does not feature: its own custom semantic API. There's no "describe", "expect", etc. zsh-test-runner is not bats or ZUnit (or rspec, or cypress, or…). Tests rely on the shell's native determination of success.
 
 ## Installation
 
 ### Plugin
 
-You can install zsh-test-runner with a zsh plugin manager. Each has their own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
+You can install zsh-test-runner with a zsh plugin manager. Each has its own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
 
 After adding the plugin to the manager, restart zsh:
 
@@ -33,9 +46,10 @@ Clear counts.
 PASS true
 % ztr clear
 % ztr test false
+FAIL false
 % ztr summary
 1 test total
-1 failed
+1 (100%) failed
 0 were skipped
 0 passed
 ```
@@ -54,8 +68,10 @@ Skip `<arg>`.
 Pretty-print summary of counts.
 
 ```shell
-% ztr test true --quiet
-% ztr test false --quiet
+% ztr test true
+PASS true
+% ztr test false
+FAIL false
 % ztr summary
 2 tests total
 1 (50%) failed
@@ -74,7 +90,7 @@ PASS true
 FAIL false
 ```
 
-If your arg will error when passed to `eval`, quote it.
+If `<arg>` will error when passed to `eval`, quote it.
 
 ```shell
 % ztr test [[ 1 == 1 ]]
@@ -83,6 +99,28 @@ zsh: = not found # same error you get if you run `eval [[ 1 == 1 ]]`
 PASS [[ 1 == 1 ]]
 ```
 
+`<arg>` can be a value, a function, a `[ ]` or `[[ ]]` test, anything that you can pass to `eval`.
+
+```shell
+% ztr test 'test -f myfile.txt'
+% ztr test '[ -f myfile.txt ]'
+% ztr test '[[ -f myfile.txt ]]'
+% ztr test my_function
+# etc
+```
+
+Choose your quote level to control what is logged.
+
+```shell
+% my_var=1
+% ztr test "[[ $my_var == 1 ]]"
+PASS [[ 1 == 1 ]]
+% ztr test '[[ $my_var == 1 ]]'
+PASS [[ $my_var == 1 ]]
+```
+
+#### `<name>`
+
 Optionally pass a name as a second parameter.
 
 ```shell
@@ -90,16 +128,18 @@ Optionally pass a name as a second parameter.
 PASS <name> appears instead of <arg>
 ```
 
+#### `<notes>`
+
 Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
 
 ```shell
 % cat my_tests.ztr
 # --- snip ---
-ztr test 'my_test_10'
+ztr test my_test_10
 # --- snip ---
-ztr test 'my_test_20' 'my_test_20' 'Dependencies: my_test_10'
+ztr test my_test_20 my_test_20 'Dependencies: my_test_10'
 # --- snip ---
-ztr test 'my_test_30' 'my_test_30' 'Dependencies: my_test_10'
+ztr test my_test_30 my_test_30 'Dependencies: my_test_10'
 # --- snip ---
 
 % ./my_tests.ztr
