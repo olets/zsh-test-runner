@@ -10,7 +10,7 @@ ztr \- zsh test runner
 
 \fBztr summary\fR
 
-\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<description>\fR [\fI<notes>\fR]]\fR
+\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 \fBabbr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
 
@@ -38,13 +38,13 @@ Skip <test>.
 Pretty-print summary of counts.
 
 .IP \(bu
-\fBtest \fI<arg>\fR [\fI<description>\fR [\fI<notes>\fR]]\fR
+\fBtest \fI<arg>\fR [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 Test \fI<arg>\fR. Pretty-print result and notes unless "quiet".
 
 If your arg will error when passed to `eval`, quote it. If your arg has spaces, quote it.
 
-Optionally pass a description as a second parameter.
+Optionally pass a name as a second parameter.
 
 Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
 

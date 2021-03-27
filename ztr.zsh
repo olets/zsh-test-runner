@@ -62,7 +62,7 @@ __ztr_init() { # Set variables.
 		typeset -gir ZTR_COUNT_SKIP
 }
 
-__ztr_test() { # Test <arg> [<description> [<notes>]]. Pretty-print result and notes unless "quiet".
+__ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes unless "quiet".
 	emulate -LR zsh
 	__ztr_debugger
 
@@ -70,7 +70,7 @@ __ztr_test() { # Test <arg> [<description> [<notes>]]. Pretty-print result and n
 	local -i exit_code
 
 	arg=$1
-	description=$2
+	name=$2
 	notes=$3
 
 	eval $arg &>/dev/null
@@ -92,7 +92,7 @@ __ztr_test() { # Test <arg> [<description> [<notes>]]. Pretty-print result and n
 	fi
 
 	if (( ! ZTR_QUIET )); then
-		'builtin' 'echo' "$result ${description:-$arg}${notes:+\\n    $notes}"
+		'builtin' 'echo' "$result ${name:-$arg}${notes:+\\n    $notes}"
 	fi
 
 	return $exit_code

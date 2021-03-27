@@ -63,7 +63,7 @@ Pretty-print summary of counts.
 1 passed
 ```
 
-### `test [--quiet | -q] <arg> [<description> [<notes>]]`
+### `test [--quiet | -q] <arg> [<name> [<notes>]]`
 
 Test `<arg>`. Pretty-print result and notes unless "quiet".
 
@@ -83,11 +83,11 @@ zsh: = not found # same error you get if you run `eval [[ 1 == 1 ]]`
 PASS [[ 1 == 1 ]]
 ```
 
-Optionally pass a description as a second parameter.
+Optionally pass a name as a second parameter.
 
 ```shell
-% ztr test '[[ 1 == 1 ]]' '<description> appears instead of <arg>'
-PASS <description> appears instead of <arg>
+% ztr test '[[ 1 == 1 ]]' '<name> appears instead of <arg>'
+PASS <name> appears instead of <arg>
 ```
 
 Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
