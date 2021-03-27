@@ -15,6 +15,7 @@
 -   [ ] `ztr bootstrap` runs the bootstrap function
 -   [ ] `ZTR_CLEAN_FN` is a user-definable function
 -   [ ] `ztr clean` runs the clean function
+-   [ ] `ztr reset` is a shorthand for `ztr clean && ztr clear`
 
 ## More distant future
 
