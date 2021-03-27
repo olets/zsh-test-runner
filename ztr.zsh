@@ -58,7 +58,7 @@ __ztr_init() { # Set variables.
 		typeset -gir ZTR_COUNT_SKIP
 }
 
-__ztr_run() { # Run <command> [<notes>]. Pretty-print result and notes unless "quiet".
+__ztr_test() { # Test <command> [<notes>]. Pretty-print result and notes unless "quiet".
 	emulate -LR zsh
 	__ztr_debugger
 
@@ -119,7 +119,7 @@ ztr() {
 	__ztr_debugger
 
 	typeset -a args
-	typeset -i clear run skip summary
+	typeset -i clear run_test skip_test summary
 
 	for opt in "$@"; do
 		if (( should_exit )); then
@@ -148,12 +148,12 @@ ztr() {
 				shift
 				;;
 			# "help" see "--help"
-			"run")
-				run=1
+			"test")
+				run_test=1
 				shift
 				;;
 			"skip")
-				skip=1
+				skip_test=1
 				shift
 				;;
 			"summary")
@@ -173,12 +173,12 @@ ztr() {
 		return
 	fi
 
-	if (( run )); then
-		__ztr_run $args
+	if (( run_test )); then
+		__ztr_test $args
 		return
 	fi
 
-	if (( skip )); then
+	if (( skip_test )); then
 		__ztr_skip $args
 		return
 	fi
