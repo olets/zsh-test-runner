@@ -65,7 +65,7 @@ __ztr_init() { # Set variables.
 		typeset -gr ZTR_PATH
 
 	typeset -g +r ZTR_VERSION >/dev/null && \
-		ZTR_VERSION=alpha-1 && \
+		ZTR_VERSION=1.0.0 && \
 		typeset -gr ZTR_VERSION
 
 	# export

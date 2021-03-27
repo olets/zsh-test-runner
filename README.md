@@ -281,6 +281,10 @@ Use `ztr clear` to zero out count variables:
 | -------- | ------ | --------------------------------------------------------- |
 | ZTR_PATH | string | `source $ZTR_PATH` in scripts that include `ztr` commands |
 
+## Changelog
+
+See the [CHANGELOG](CHANGELOG.md) file.
+
 ## Roadmap
 
 See the [ROADMAP](ROADMAP.md) file.
