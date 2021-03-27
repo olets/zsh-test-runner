@@ -1,0 +1,43 @@
+#!/usr/bin/env zsh
+autoload -U colors && colors
+source ${0:h}/../ztr.zsh
+
+typeset -i failures
+typeset -i passes
+
+should_pass() {
+	local result
+
+	eval $* &>/dev/null
+
+	if (( $? )); then
+		(( failures++ ))
+		result="$fg[red]INCORRECTLY FAILED$reset_color"
+	else
+		(( passes++ ))
+		result="$fg[green]CORRECTLY PASSED$reset_color"
+	fi
+
+	'builtin' 'print' $result $1
+}
+
+should_fail() {
+	local result
+
+	eval $* &>/dev/null
+
+	if (( $? )); then
+		(( passes++ ))
+		result="$fg[green]CORRECTLY FAILED$reset_color"
+	else
+		(( failures++ ))
+		result="$fg[red]INCORRECTLY PASSED$reset_color"
+	fi
+
+	'builtin' 'print' $result $1
+}
+
+'builtin' 'print' \\n$(( passes + failures )) tests were run\
+	\\n$passes passed\
+	\\n$failures failed
+return $failures
