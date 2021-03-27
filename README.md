@@ -119,6 +119,31 @@ PASS [[ 1 == 1 ]]
 PASS [[ $my_var == 1 ]]
 ```
 
+A passing test has a passing exit code; a failing test has a failing exit code:
+
+```shell
+% ztr test true 'passing exit code'
+PASS passing exit code
+% echo $?
+0
+% ztr test false 'failing exit code'
+FAIL failing exit code
+% echo $?
+1
+```
+
+#### `(--quiet | -q)`
+
+Optionally silence output.
+
+```shell
+% ztr test true
+PASS true
+% ztr test --quiet true
+% ztr test true
+PASS true
+```
+
 #### `<name>`
 
 Optionally pass a name as a second parameter.
