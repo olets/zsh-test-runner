@@ -17,15 +17,27 @@ What it does not feature: its own custom semantic API. There's no "describe", "e
 
 ## Installation
 
-### Plugin
+### Plugin (recommended)
 
-You can install zsh-test-runner with a zsh plugin manager. Each has its own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
+You can install zsh-test-runner with a zsh plugin manager. This is the recommended installation because most modern plugin managers are optimized for shell load time performance.
+
+Each has its own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
 
 After adding the plugin to the manager, restart zsh:
 
 ```shell
 exec zsh
 ```
+
+### Package
+
+zsh-test-runner is available on Homebrew. Run
+
+```
+brew install olets/tap/zsh-test-runner
+```
+
+and follow the post-install instructions logged to the terminal.
 
 ### Manual
 
