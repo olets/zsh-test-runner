@@ -40,9 +40,9 @@ PASS true
 0 passed
 ```
 
-### `skip <test>`
+### `skip <arg>`
 
-Skip <command>.
+Skip `<arg>`.
 
 ```shell
 % ztr skip my_test
@@ -63,9 +63,9 @@ Pretty-print summary of counts.
 1 passed
 ```
 
-### `test [--quiet | -q] <command> [<notes>]`
+### `test [--quiet | -q] <arg> [<description> [<notes>]]`
 
-Test `<command>`. Pretty-print result and notes unless "quiet".
+Test `<arg>`. Pretty-print result and notes unless "quiet".
 
 ```shell
 % ztr test true
@@ -74,7 +74,7 @@ PASS true
 FAIL false
 ```
 
-If your command will error when passed to `eval`, quote it.
+If your arg will error when passed to `eval`, quote it.
 
 ```shell
 % ztr test [[ 1 == 1 ]]
@@ -86,8 +86,8 @@ PASS [[ 1 == 1 ]]
 Optionally pass a description as a second parameter.
 
 ```shell
-% ztr test '[[ 1 == 1 ]]' '<description> appears instead of <command>'
-PASS <description> appears instead of <command>
+% ztr test '[[ 1 == 1 ]]' '<description> appears instead of <arg>'
+PASS <description> appears instead of <arg>
 ```
 
 Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.

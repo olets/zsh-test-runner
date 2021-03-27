@@ -62,18 +62,18 @@ __ztr_init() { # Set variables.
 		typeset -gir ZTR_COUNT_SKIP
 }
 
-__ztr_test() { # Test <command> [<description> [<notes>]]. Pretty-print result and notes unless "quiet".
+__ztr_test() { # Test <arg> [<description> [<notes>]]. Pretty-print result and notes unless "quiet".
 	emulate -LR zsh
 	__ztr_debugger
 
-	local notes result cmd
+	local notes result arg
 	local -i exit_code
 
-	cmd=$1
+	arg=$1
 	description=$2
 	notes=$3
 
-	eval $cmd &>/dev/null
+	eval $arg &>/dev/null
 
 	exit_code=$?
 
@@ -92,25 +92,25 @@ __ztr_test() { # Test <command> [<description> [<notes>]]. Pretty-print result a
 	fi
 
 	if (( ! ZTR_QUIET )); then
-		'builtin' 'echo' "$result ${description:-$cmd}${notes:+\\n    $notes}"
+		'builtin' 'echo' "$result ${description:-$arg}${notes:+\\n    $notes}"
 	fi
 
 	return $exit_code
 }
 
-__ztr_skip() { # Skip <command>.
+__ztr_skip() { # Skip <arg>.
 	emulate -LR zsh
 	__ztr_debugger
 
-	local cmd && \
-		cmd=$1
+	local arg && \
+		arg=$1
 
 	typeset -gi +r ZTR_COUNT_SKIP
 	(( ZTR_COUNT_SKIP++ ))
 	typeset -gir ZTR_COUNT_SKIP
 
 	if (( ! ZTR_QUIET )); then
-		'builtin' 'echo' "$fg[yellow]SKIP$reset_color $cmd${notes:+\\n    $notes}"
+		'builtin' 'echo' "$fg[yellow]SKIP$reset_color $arg${notes:+\\n    $notes}"
 	fi
 }
 

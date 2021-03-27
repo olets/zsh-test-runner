@@ -6,11 +6,11 @@ ztr \- zsh test runner
 
 \fBztr clear\fR
 
-\fBztr skip\fR <\fIcommand\fR>
+\fBztr skip\fR <\fIarg\fR>
 
 \fBztr summary\fR
 
-\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIcommand\fR> [\fI<description>\fR [\fI<notes>\fR]]\fR
+\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<description>\fR [\fI<notes>\fR]]\fR
 
 \fBabbr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
 
@@ -38,11 +38,11 @@ Skip <test>.
 Pretty-print summary of counts.
 
 .IP \(bu
-\fBtest \fI<command>\fR [\fI<description>\fR [\fI<notes>\fR]]\fR
+\fBtest \fI<arg>\fR [\fI<description>\fR [\fI<notes>\fR]]\fR
 
-Test \fI<command>\fR. Pretty-print result and notes unless "quiet".
+Test \fI<arg>\fR. Pretty-print result and notes unless "quiet".
 
-If your command will error when passed to `eval`, quote it. If your command has spaces, quote it.
+If your arg will error when passed to `eval`, quote it. If your arg has spaces, quote it.
 
 Optionally pass a description as a second parameter.
 
