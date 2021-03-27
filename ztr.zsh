@@ -42,20 +42,20 @@ __ztr_init() { # Set variables.
 		ZTR_QUIET=${ZTR_QUIET:-0}
 
 	# -gr
-	typeset -g ZTR_VERSION >/dev/null && \
+	typeset -g +r ZTR_VERSION >/dev/null && \
 		ZTR_VERSION=alpha-1 && \
 		typeset -r ZTR_VERSION
 
 	# -gir
-	typeset -gi ZTR_COUNT_FAIL && \
+	typeset -gi +r ZTR_COUNT_FAIL && \
 		ZTR_COUNT_FAIL=${ZTR_COUNT_FAIL:-0} && \
-		typeset -r ZTR_COUNT_FAIL
-	typeset -gi ZTR_COUNT_PASS && \
+		typeset -gir ZTR_COUNT_FAIL
+	typeset -gi +r ZTR_COUNT_PASS && \
 		ZTR_COUNT_PASS=${ZTR_COUNT_PASS:-0} && \
-		typeset -r ZTR_COUNT_PASS
-	typeset -gi ZTR_COUNT_SKIP && \
+		typeset -gir ZTR_COUNT_PASS
+	typeset -gi +r ZTR_COUNT_SKIP && \
 		ZTR_COUNT_SKIP=${ZTR_COUNT_SKIP:-0} && \
-		typeset -r ZTR_COUNT_SKIP
+		typeset -gir ZTR_COUNT_SKIP
 }
 
 __ztr_run() { # Run <test>. Pretty-print result unless "quiet".
