@@ -54,14 +54,16 @@ FAIL false
 0 passed
 ```
 
-### `skip <arg>`
+### `skip [--quiet | -q] <arg> [<name> [<notes>]]`
 
 Skip `<arg>`.
 
 ```shell
 % ztr skip my_test
-%
+SKIP my_test
 ```
+
+See [`test`](#test) for details about `--quiet`, `<name>`, and `<notes>`.
 
 ### `summary`
 

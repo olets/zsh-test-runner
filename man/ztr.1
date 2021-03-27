@@ -6,7 +6,7 @@ ztr \- zsh test runner
 
 \fBztr clear\fR
 
-\fBztr skip\fR <\fIarg\fR>
+\fBztr skip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 \fBztr summary\fR
 
@@ -28,9 +28,12 @@ ztr \- zsh test runner
 Clear counts.
 
 .IP \(bu
-\fBskip\fR
+\fBskip \fI<arg>\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR [\fI<notes>\fR]]\fR
 
-Skip <test>.
+Skip <arg>.
+
+See \fBtest\fR for details about \fI\-\-quiet\fR, \fI<name>\fR, and \fI<notes>\fR.
+
 
 .IP \(bu
 \fBsummary\fR
@@ -38,7 +41,7 @@ Skip <test>.
 Pretty-print summary of counts.
 
 .IP \(bu
-\fBtest \fI<arg>\fR [\fI<name>\fR [\fI<notes>\fR]]\fR
+\fBtest \fI<arg>\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 Test \fI<arg>\fR. Pretty-print result and notes unless "quiet".
 

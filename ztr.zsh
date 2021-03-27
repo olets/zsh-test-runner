@@ -102,15 +102,18 @@ __ztr_skip() { # Skip <arg>.
 	emulate -LR zsh
 	__ztr_debugger
 
-	local arg && \
+	local arg name notes
+
 		arg=$1
+	name=$2
+	notes=$3
 
 	typeset -gi +r ZTR_COUNT_SKIP
 	(( ZTR_COUNT_SKIP++ ))
 	typeset -gir ZTR_COUNT_SKIP
 
 	if (( ! __ztr_quiet )); then
-		'builtin' 'echo' "$fg[yellow]SKIP$reset_color $arg${notes:+\\n    $notes}"
+		'builtin' 'echo' "$fg[yellow]SKIP$reset_color ${name:-$arg}${notes:+\\n    $notes}"
 	fi
 }
 
