@@ -6,9 +6,9 @@ ztr \- zsh test runner
 
 \fBztr clear\fR
 
-\fBztr run\fR <\fItest\fR> ([\fI\-\-quiet | \-q\fR])
+\fBztr run\fR [(\fI\-\-quiet | \-q\fR)] <\fIcommand\fR> [\fI<notes>\fR]\fR
 
-\fBztr skip\fR <\fItest\fR>
+\fBztr skip\fR <\fIcommand\fR>
 
 \fBztr summary\fR
 
@@ -28,9 +28,13 @@ ztr \- zsh test runner
 .\" Clear counts.
 
 .IP \(bu
-\fBrun \fI<test>\fR\fR
+\fBrun \fI<command>\fR [\fI<notes>\fR]\fR
 
-.\" Run <test>. Pretty-print result unless "quiet".
+Run \fI<command>\fR. Pretty-print result and notes unless "quiet".
+
+If your test will error when passed to `eval`, quote it. If your test has spaces, quote it.
+
+Optionally pass notes as a second parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
 
 .IP \(bu
 \fBskip\fR

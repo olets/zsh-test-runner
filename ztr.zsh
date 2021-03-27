@@ -58,14 +58,42 @@ __ztr_init() { # Set variables.
 		typeset -gir ZTR_COUNT_SKIP
 }
 
-__ztr_run() { # Run <test>. Pretty-print result unless "quiet".
+__ztr_run() { # Run <command> [<notes>]. Pretty-print result and notes unless "quiet".
 	emulate -LR zsh
 	__ztr_debugger
 
-	# @TODO
+	local notes result cmd
+	local -i exit_code
+
+	cmd=$1
+	notes=$2
+
+	eval $cmd &>/dev/null
+
+	exit_code=$?
+
+	if (( exit_code )); then
+		result="$fg[red]FAIL$reset_color"
+
+		typeset -gi +r ZTR_COUNT_FAIL
+		(( ZTR_COUNT_FAIL++ ))
+		typeset -gir ZTR_COUNT_FAIL
+	else
+		result="$fg[green]PASS$reset_color"
+
+		typeset -gi +r ZTR_COUNT_PASS
+		(( ZTR_COUNT_PASS++ ))
+		typeset -gir ZTR_COUNT_PASS
+	fi
+
+	if (( ! ZTR_QUIET )); then
+		'builtin' 'echo' "$result $cmd${notes:+\\n    $notes}"
+	fi
+
+	return $exit_code
 }
 
-__ztr_skip() { # Skip <test>.
+__ztr_skip() { # Skip <command>.
 	emulate -LR zsh
 	__ztr_debugger
 

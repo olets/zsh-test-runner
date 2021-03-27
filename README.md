@@ -12,9 +12,55 @@ Source `ztr.zsh`
 
 <!-- Clear counts. -->
 
-### run <test> [--quiet | -q]
+### run [--quiet | -q] <command> [<notes>]
 
-<!-- Run <test>. Pretty-print result unless "quiet". -->
+Run <test>. Pretty-print result and notes unless "quiet".
+
+If your test will error when passed to `eval`, quote it. If your test has spaces, quote it.
+
+Optionally pass notes as a second parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
+
+```shell
+% ztr run true
+PASS true
+% ztr run false
+FAIL false
+```
+
+If your test will error when passed to `eval`, quote it. If your test has spaces, quote it.
+
+Optionally pass notes as a second parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
+
+```shell
+% ztr run [[ 1 == 1 ]]
+zsh: = not found # same error you get if you run `eval [[ 1 == 1 ]]`
+% ztr run '[[ 1 == 1 ]]'
+PASS [[ 1 == 1 ]]
+```
+
+Optionally pass notes as a second parameter. For example, noting dependencies can help with troubleshooting. In the output notes follow the test result and are indented.
+
+```shell
+% cat my_tests.ztr
+# --- snip ---
+ztr run 'my_test_10'
+# --- snip ---
+ztr run 'my_test_20' 'Dependencies: my_test_10'
+# --- snip ---
+ztr run 'my_test_30' 'Dependencies: my_test_10'
+# --- snip ---
+
+% ./my_tests.ztr
+# --- snip ---
+FAIL my_test_10
+# --- snip ---
+FAIL my_test_20
+    'Dependencies: my_test_10'
+# --- snip ---
+FAIL my_test_30
+    'Dependencies: my_test_10'
+# Ok let's see if fixing my_test_10 fixes my_test_20 and my_test_30
+```
 
 ### skip <test>
 
