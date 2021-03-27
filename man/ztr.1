@@ -8,9 +8,13 @@ ztr \- zsh test runner
 
 \fBztr run\fR <\fItest\fR> ([\fI\-\-quiet | \-q\fR])
 
+\fBztr skip\fR <\fItest\fR>
+
 \fBztr summary\fR
 
 \fBabbr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
+
+\fBabbr\fR (\fBversion | \-\-version\fR | \fB\-v\fR)
 
 .SH DESCRIPTION
 
@@ -29,6 +33,11 @@ ztr \- zsh test runner
 .\" Run <test>. Pretty-print result unless "quiet".
 
 .IP \(bu
+\fBskip\fR
+
+.\" Skip <test>.
+
+.IP \(bu
 \fBsummary\fR
 
 .\" Pretty-print summary of counts.
@@ -44,6 +53,12 @@ Show the manpage.
 Print the command name and current version.
 
 .\" .SH EXAMPLES
+
+.SH LICENSE
+
+Licensed under CC BY-NC-SA 4.0 with a human rights condition from Hippocratic
+License 2.1. See the LICENSE file for details. Persons interested in using or
+adapting this work for commercial purposes should contact the author.
 
 .SH AUTHORS
 

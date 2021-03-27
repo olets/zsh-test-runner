@@ -2,6 +2,36 @@
 
 > Straight-forward tests and reports for zsh
 
+## Installation
+
+Source `ztr.zsh`
+
+## Commands
+
+### clear
+
+<!-- Clear counts. -->
+
+### run <test> [--quiet | -q]
+
+<!-- Run <test>. Pretty-print result unless "quiet". -->
+
+### skip <test>
+
+<!-- Skip <test>. -->
+
+### summary
+
+<!-- Pretty-print summary of counts. -->
+
+### ( --help | -h | help)
+
+Show the manpage.
+
+### ( --version | -v | version )
+
+Print the command name and current version.
+
 ## Contributing
 
 Thanks for your interest. Contributions are welcome!
