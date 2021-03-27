@@ -118,8 +118,15 @@ __ztr_summary() { # Pretty-print summary of counts.
 	emulate -LR zsh
 	__ztr_debugger
 
-	local -i total && \
+	local rate_fail rate_pass
+	local -i total
+
 		total=$(( ZTR_COUNT_FAIL + ZTR_COUNT_PASS + ZTR_COUNT_SKIP ))
+
+	if (( total )); then
+		(( ZTR_COUNT_FAIL )) && (( rate_fail=ZTR_COUNT_FAIL*100/total ))
+		(( ZTR_COUNT_PASS )) && (( rate_pass=ZTR_COUNT_PASS*100/total ))
+	fi
 
 	if (( total == 1 )); then
 		'builtin' 'print' $total test total
@@ -127,7 +134,7 @@ __ztr_summary() { # Pretty-print summary of counts.
 		'builtin' 'print' $total tests total
 	fi
 
-	'builtin' 'print' $fg[red]$ZTR_COUNT_FAIL failed$reset_color
+	'builtin' 'print' $fg[red]$ZTR_COUNT_FAIL ${rate_fail:+"(${rate_fail}%)"} failed$reset_color
 
 	if (( ZTR_COUNT_SKIP == 1 )); then
 		'builtin' 'print' $fg[yellow]$ZTR_COUNT_SKIP was skipped$reset_color
@@ -135,7 +142,7 @@ __ztr_summary() { # Pretty-print summary of counts.
 		'builtin' 'print' $fg[yellow]$ZTR_COUNT_SKIP were skipped$reset_color
 	fi
 
-	'builtin' 'print' $fg[green]$ZTR_COUNT_PASS passed$reset_color
+	'builtin' 'print' $fg[green]$ZTR_COUNT_PASS ${rate_pass:+"(${rate_pass}%)"} passed$reset_color
 }
 
 __ztr_version() { # Print the command name and current version.

@@ -58,9 +58,9 @@ Pretty-print summary of counts.
 % ztr test false --quiet
 % ztr summary
 2 tests total
-1 failed
+1 (50%) failed
 0 were skipped
-1 passed
+1 (50%) passed
 ```
 
 ### `test [--quiet | -q] <arg> [<name> [<notes>]]`
