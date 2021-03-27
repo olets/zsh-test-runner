@@ -117,7 +117,24 @@ __ztr_summary() { # Pretty-print summary of counts.
 	emulate -LR zsh
 	__ztr_debugger
 
-	# @TODO
+	local -i total && \
+		total=$(( ZTR_COUNT_FAIL + ZTR_COUNT_PASS + ZTR_COUNT_SKIP ))
+
+	if (( total == 1 )); then
+		'builtin' 'print' $total test total
+	else
+		'builtin' 'print' $total tests total
+	fi
+
+	'builtin' 'print' $fg[red]$ZTR_COUNT_FAIL failed$reset_color
+
+	if (( ZTR_COUNT_SKIP == 1 )); then
+		'builtin' 'print' $fg[yellow]$ZTR_COUNT_SKIP was skipped$reset_color
+	else
+		'builtin' 'print' $fg[yellow]$ZTR_COUNT_SKIP were skipped$reset_color
+	fi
+
+	'builtin' 'print' $fg[green]$ZTR_COUNT_PASS passed$reset_color
 }
 
 __ztr_version() { # Print the command name and current version.

@@ -35,7 +35,17 @@ Skip <command>.
 
 ### summary
 
-<!-- Pretty-print summary of counts. -->
+Pretty-print summary of counts.
+
+```shell
+% ztr test true --quiet
+% ztr test false --quiet
+% ztr summary
+2 tests total
+1 failed
+0 were skipped
+1 passed
+```
 
 ### test [--quiet | -q] <command> [<notes>]
 
