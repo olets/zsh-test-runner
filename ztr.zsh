@@ -28,31 +28,21 @@ __ztr_help() { # Show the manpage.
 	emulate -LR zsh
 	__ztr_debugger
 
-	'command' 'man' ztr 2>/dev/null || 'command' 'man' ${__ZTR_DIR_PATH}/man/ztr.1
+	'command' 'man' ztr 2>/dev/null || 'command' 'man' $__ztr_manpage_path
 }
 
 __ztr_init() { # Set variables.
 	emulate -LR zsh
 	__ztr_debugger
 
-	# -g
-	typeset -g __ZTR_DIR_PATH >/dev/null && \
-		__ZTR_DIR_PATH=${0:A:h}
-	typeset -g +r ZTR_PATH && \
-		ZTR_PATH=$__ZTR_DIR_PATH/ztr.zsh
-	typeset -gr ZTR_PATH
-	export ZTR_PATH
+	local dir && \
+		dir=${0:A:h}
 
 	# -gi
 	typeset -gi ZTR_DEBUG >/dev/null && \
 		ZTR_DEBUG=${ZTR_DEBUG:-0}
 	typeset -gi ZTR_QUIET >/dev/null && \
 		ZTR_QUIET=${ZTR_QUIET:-0}
-
-	# -gr
-	typeset -g +r ZTR_VERSION >/dev/null && \
-		ZTR_VERSION=alpha-1 && \
-		typeset -r ZTR_VERSION
 
 	# -gir
 	typeset -gi +r ZTR_COUNT_FAIL && \
@@ -64,6 +54,22 @@ __ztr_init() { # Set variables.
 	typeset -gi +r ZTR_COUNT_SKIP && \
 		ZTR_COUNT_SKIP=${ZTR_COUNT_SKIP:-0} && \
 		typeset -gir ZTR_COUNT_SKIP
+
+	# -gr
+	typeset -g +r __ztr_manpage_path && \
+		__ztr_manpage_path=$dir/man/man1/ztr.1 && \
+		typeset -gr __ztr_manpage_path
+
+	typeset -g +r ZTR_PATH && \
+		ZTR_PATH=$dir/ztr.zsh && \
+		typeset -gr ZTR_PATH
+
+	typeset -g +r ZTR_VERSION >/dev/null && \
+		ZTR_VERSION=alpha-1 && \
+		typeset -gr ZTR_VERSION
+
+	# export
+	export ZTR_PATH
 }
 
 __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes unless "quiet".
