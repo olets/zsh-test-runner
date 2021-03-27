@@ -91,7 +91,7 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 		typeset -gir ZTR_COUNT_PASS
 	fi
 
-	if (( ! ZTR_QUIET )); then
+	if (( ! __ztr_quiet )); then
 		'builtin' 'echo' "$result ${name:-$arg}${notes:+\\n    $notes}"
 	fi
 
@@ -109,7 +109,7 @@ __ztr_skip() { # Skip <arg>.
 	(( ZTR_COUNT_SKIP++ ))
 	typeset -gir ZTR_COUNT_SKIP
 
-	if (( ! ZTR_QUIET )); then
+	if (( ! __ztr_quiet )); then
 		'builtin' 'echo' "$fg[yellow]SKIP$reset_color $arg${notes:+\\n    $notes}"
 	fi
 }
@@ -158,6 +158,9 @@ ztr() {
 
 	typeset -a args
 	typeset -i clear run_test skip_test summary
+	typeset -gi __ztr_quiet
+
+	__ztr_quiet=$ZTR_QUIET
 
 	for opt in "$@"; do
 		if (( should_exit )); then
@@ -172,7 +175,7 @@ ztr() {
 				return
 				;;
 			"--quiet"|"-q")
-				ZTR_QUIET=1
+				__ztr_quiet=1
 				shift
 				;;
 			"--version"|\
