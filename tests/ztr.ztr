@@ -45,8 +45,21 @@ print \\n'[[ ]]':
 should_pass 'ztr test "[[ 1 == 1 ]]"'
 should_fail 'ztr test "[[ 1 == 2 ]]"'
 
-my_cmd='"[[ 1 == 1 ]]"' && should_pass 'ztr test '$my_cmd
-my_cmd='[[ 1 == 2 ]]' && should_fail 'ztr test '$my_cmd''
+print \\ntest saved as variable
+my_cmd='"[[ 1 == 1 ]]"' && should_pass ztr test $my_cmd
+my_cmd='"[[ 1 == 2 ]]"' && should_fail ztr test $my_cmd
+
+print \\nvariables in test, \'\"\"\'
+my_var=1 && should_pass 'ztr test "[[ $my_var == 1 ]]"'
+my_var=2 && should_fail 'ztr test "[[ $my_var == 1 ]]"'
+
+print \\nvariables in test, \"\'\'\"
+my_var=1 && should_pass "ztr test '[[ $my_var == 1 ]]'"
+my_var=2 && should_fail "ztr test '[[ $my_var == 1 ]]'"
+
+print \\nskip
+should_pass 'ztr skip true'
+should_pass 'ztr skip false'
 
 'builtin' 'print' \\n$(( passes + failures )) tests were run\
 	\\n$passes passed\

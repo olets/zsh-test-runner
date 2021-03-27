@@ -97,7 +97,16 @@ __ztr_skip() { # Skip <command>.
 	emulate -LR zsh
 	__ztr_debugger
 
-	# @TODO
+	local cmd && \
+		cmd=$1
+
+	typeset -gi +r ZTR_COUNT_SKIP
+	(( ZTR_COUNT_SKIP++ ))
+	typeset -gir ZTR_COUNT_SKIP
+
+	if (( ! ZTR_QUIET )); then
+		'builtin' 'echo' "$fg[yellow]SKIP$reset_color $cmd${notes:+\\n    $notes}"
+	fi
 }
 
 __ztr_summary() { # Pretty-print summary of counts.
@@ -180,7 +189,7 @@ ztr() {
 
 	if (( skip_test )); then
 		__ztr_skip $args
-		return
+		return 0
 	fi
 
 	if (( summary )); then

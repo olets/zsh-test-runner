@@ -14,7 +14,12 @@ Source `ztr.zsh`
 
 ### skip <test>
 
-<!-- Skip <test>. -->
+Skip <command>.
+
+```shell
+% ztr skip my_test
+%
+```
 
 ### summary
 
