@@ -25,6 +25,11 @@ __ztr_clear() { # Clear counts.
 	typeset -gir ZTR_COUNT_SKIP ZTR_COUNT_FAIL ZTR_COUNT_PASS
 }
 
+__ztr_get_use_color() {
+	# succeeds if NO_COLOR has not been declared
+	! typeset -p NO_COLOR 2>/dev/null | grep -q '^'
+}
+
 __ztr_debugger() { # Print name of caller function.
   emulate -LR zsh
 
@@ -42,16 +47,21 @@ __ztr_init() { # Set variables.
 	emulate -LR zsh
 	__ztr_debugger
 
+	if __ztr_get_use_color; then
+		'builtin' 'autoload' -U colors && colors
+	fi
+
 	# -g
 	typeset -g fail_color pass_color skip_color
 
-	# if NO_COLOR has not been declared
-	if ! typeset -p NO_COLOR 2>/dev/null | grep -q '^'; then
-		'builtin' 'autoload' -U colors && colors
-		fail_color="$fg[red]"
-		pass_color="$fg[green]"
-		skip_color="$fg[yellow]"
-	fi
+	# -gAr
+	typeset -gA +r __ztr_colors && \
+		__ztr_colors=(
+			[fail]=red
+			[pass]=green
+			[skip]=yellow
+		) && \
+		typeset -gAr __ztr_colors
 
 	# -gi
 	typeset -gi ZTR_DEBUG >/dev/null && \
@@ -84,12 +94,17 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	emulate -LR zsh
 	__ztr_debugger
 
-	local notes result arg
+	local arg fail_color pass_color notes result
 	local -i exit_code
 
 	arg=$1
 	name=$2
 	notes=$3
+
+	if __ztr_get_use_color; then
+		fail_color="$fg[$__ztr_colors[fail]]"
+		pass_color="$fg[$__ztr_colors[pass]]"
+	fi
 
 	eval $arg &>/dev/null
 
@@ -120,11 +135,15 @@ __ztr_skip() { # Skip <arg>.
 	emulate -LR zsh
 	__ztr_debugger
 
-	local arg name notes
+	local arg name notes skip_color
 
-		arg=$1
+	arg=$1
 	name=$2
 	notes=$3
+
+	if __ztr_get_use_color; then
+		skip_color="$fg[$__ztr_colors[skip]]"
+	fi
 
 	typeset -gi +r ZTR_COUNT_SKIP
 	(( ZTR_COUNT_SKIP++ ))
@@ -139,10 +158,16 @@ __ztr_summary() { # Pretty-print summary of counts.
 	emulate -LR zsh
 	__ztr_debugger
 
-	local rate_fail rate_pass
+	local fail_color pass_color rate_fail rate_pass skip_color
 	local -i total
 
-		total=$(( ZTR_COUNT_FAIL + ZTR_COUNT_PASS + ZTR_COUNT_SKIP ))
+	if __ztr_get_use_color; then
+		fail_color="$fg[$__ztr_colors[fail]]"
+		pass_color="$fg[$__ztr_colors[pass]]"
+		skip_color="$fg[$__ztr_colors[skip]]"
+	fi
+
+	total=$(( ZTR_COUNT_FAIL + ZTR_COUNT_PASS + ZTR_COUNT_SKIP ))
 
 	if (( total )); then
 		(( ZTR_COUNT_FAIL )) && (( rate_fail=ZTR_COUNT_FAIL*100/total ))
