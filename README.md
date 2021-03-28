@@ -311,6 +311,8 @@ You can run a test suite from a file. The following examples suppose the file is
 
 ##### Examples
 
+[`zsh-abbr`](https://github.com/olets/zsh-abbr) uses zsh-test-runner for its test suite. For real world example of `ztr` use, check out [`zsh-abbr/tests/abbr.ztr`](https://github.com/olets/zsh-abbr/blob/main/tests/abbr.ztr).
+
 ### `( --help | -h | help)`
 
 Show the manpage.
