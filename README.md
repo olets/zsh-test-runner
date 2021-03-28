@@ -5,21 +5,23 @@
 Features:
 
 -   short and gentle learning curve
--   run one or more tests on the command line
--   run one or more tests saved in a test suite file
--   skip tests
--   optionally give tests descriptive names
--   optionally provide notes to tests, for example to list dependencies in the logged output
+-   run one or more tests on the command line (see [`test`](#test---quiet---q-arg-name-notes))
+-   run one or more tests saved in a test suite file (see [Running test suites](#running-test-suites))
+-   skip tests (see [`skip`](#skip---quiet---q-arg-name-notes))
+-   optionally give tests descriptive names (see [`skip`](#skip---quiet---q-arg-name-notes), [`test`](#test---quiet---q-arg-name-notes))
+-   optionally provide notes to tests, for example to list dependencies in the logged output (see [`skip`](#skip---quiet---q-arg-name-notes), [`test`](#test---quiet---q-arg-name-notes))
 -   access cumulative failure, pass, and skip counts as shell variables
--   print coverage summaries with test count, failure count and rate, pass count and rate, and skip count
+-   print coverage summaries with total, failure, pass, and skip counts, and failure and pass rates (see [`summary`](#summary)).
 
-What it does not feature: its own human language-like declarative test syntax. There's no "describe", "expect", etc. Downside is the tests don't read like a story. Upside is —because the shell already has rich support for tests— there is nothing to learn, there are no artificial limits on what can be tested, the cost to migrating to zsh-test-runner (or from, if you must) is very low, and there is no risk that assertions were incorrectly implemented. Just write your `[[ ]]`s, your `(( ))`s, even your `test`s or `[ ]`s, and never again punt on testing.
+What it does not feature: its own human language-like declarative test syntax. There's no "describe", "expect", etc. Downside is the tests don't read like a story. Upside is —because the shell already has rich support for tests— there is nothing to learn, there are no artificial limits on what can be tested, the cost to migrating to zsh-test-runner (or from it, if you must) is very low, and there is no risk that assertions were incorrectly implemented.
+
+Just write your `[[ ]]`s, your `(( ))`s, even your `test`s or `[ ]`s, and never again punt on testing.
 
 ## Installation
 
 ### Plugin (recommended)
 
-You can install zsh-test-runner with a zsh plugin manager. This is the recommended installation because most modern plugin managers are optimized for shell load time performance.
+You can install zsh-test-runner with a zsh plugin manager. This is the recommended method because most modern plugin managers are optimized for shell load time performance.
 
 Each has its own way of doing things. See your package manager's documentation or the [zsh plugin manager plugin installation procedures gist](https://gist.github.com/olets/06009589d7887617e061481e22cf5a4a). If you're new to zsh plugin management, at this writing zinit is a good choice for its popularity, frequent updates, and great performance.
 
@@ -47,9 +49,25 @@ Clone this repo and add `source path/to/ztr.zsh` to your `.zshrc` (replace `path
 exec zsh
 ```
 
-## Commands
+## Usage
 
-### `clear`
+```shell
+# Clear counts.
+ztr clear
+
+# Skip `<arg>`. Pretty-print result and notes unless "quiet".
+ztr skip [--quiet | -q] <arg> [<name> [<notes>]]
+
+# Pretty-print summary of counts
+ztr summary
+
+# Test `<arg>`. Pretty-print result and notes unless "quiet".
+ztr test [--quiet | -q] <arg> [<name> [<notes>]]
+```
+
+### Commands
+
+#### `clear`
 
 Clear counts.
 
@@ -66,18 +84,18 @@ FAIL false
 0 passed
 ```
 
-### `skip [--quiet | -q] <arg> [<name> [<notes>]]`
+#### `skip [--quiet | -q] <arg> [<name> [<notes>]]`
 
-Skip `<arg>`.
+Skip `<arg>`. Pretty-print result and notes unless "quiet".
 
 ```shell
 % ztr skip my_test
 SKIP my_test
 ```
 
-See [`test`](#test) for details about `--quiet`, `<name>`, and `<notes>`.
+See [`test` command](#test) for details about `--quiet`, `<name>`, and `<notes>`.
 
-### `summary`
+#### `summary`
 
 Pretty-print summary of counts.
 
@@ -93,7 +111,7 @@ FAIL false
 1 (50%) passed
 ```
 
-### `test [--quiet | -q] <arg> [<name> [<notes>]]`
+#### `test [--quiet | -q] <arg> [<name> [<notes>]]`
 
 Test `<arg>`. Pretty-print result and notes unless "quiet".
 
@@ -153,7 +171,7 @@ FAIL failing exit code
 1
 ```
 
-#### `(--quiet | -q)`
+##### `(--quiet | -q)`
 
 Optionally silence output.
 
@@ -165,7 +183,7 @@ PASS true
 PASS true
 ```
 
-#### `<name>`
+##### `<name>`
 
 Optionally pass a name as a second parameter.
 
@@ -174,7 +192,7 @@ Optionally pass a name as a second parameter.
 PASS <name> appears instead of <arg>
 ```
 
-#### `<notes>`
+##### `<notes>`
 
 Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
 
@@ -200,7 +218,7 @@ FAIL my_test_30
 # Ok let's see if fixing my_test_10 fixes my_test_20 and my_test_30
 ```
 
-#### Running test suites
+##### Running test suites
 
 You can run a test suite from a file. The following examples suppose the file is in the current working directory; adjust the path to meet your situation.
 
@@ -309,21 +327,21 @@ You can run a test suite from a file. The following examples suppose the file is
 
         ```
 
-##### Examples
+###### Examples
 
 [`zsh-abbr`](https://github.com/olets/zsh-abbr) uses zsh-test-runner for its test suite. For real world example of `ztr` use, check out [`zsh-abbr/tests/abbr.ztr`](https://github.com/olets/zsh-abbr/blob/main/tests/abbr.ztr).
 
-### `( --help | -h | help)`
+#### `( --help | -h | help)`
 
 Show the manpage.
 
-### `( --version | -v | version )`
+#### `( --version | -v | version )`
 
 Print the command name and current version.
 
-## Variables
+### Variables
 
-### Counts
+#### Counts
 
 | Variable       | Type    | Default | Use                                         |
 | -------------- | ------- | ------- | ------------------------------------------- |
@@ -357,7 +375,7 @@ Use `ztr clear` to zero out count variables:
 % (( ZTR_COUNT_FAIL )) || echo all tests pass
 ```
 
-### Configuration
+#### Configuration
 
 | Variable  | Type    | Default | Use                                                                                                                                                |
 | --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -365,7 +383,7 @@ Use `ztr clear` to zero out count variables:
 | ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                                                                                                              |
 | ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
 
-### Other
+#### Other
 
 | Variable | Type   | Use                                                       |
 | -------- | ------ | --------------------------------------------------------- |
