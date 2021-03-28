@@ -7,6 +7,9 @@
 # interested in using or adapting this work for # commercial purposes should
 # contact the author.
 
+typeset -g __ztr_dir && \
+	__ztr_dir=${0:A:h}
+
 __ztr_clear() { # Clear counts.
 	emulate -LR zsh
 	__ztr_debugger
@@ -34,9 +37,6 @@ __ztr_help() { # Show the manpage.
 __ztr_init() { # Set variables.
 	emulate -LR zsh
 	__ztr_debugger
-
-	local dir && \
-		dir=${0:A:h}
 
 	# -g
 	typeset -g fail_color pass_color skip_color
@@ -68,19 +68,16 @@ __ztr_init() { # Set variables.
 
 	# -gr
 	typeset -g +r __ztr_manpage_path && \
-		__ztr_manpage_path=$dir/man/man1/ztr.1 && \
+		__ztr_manpage_path=$__ztr_dir/man/man1/ztr.1 && \
 		typeset -gr __ztr_manpage_path
 
 	typeset -g +r ZTR_PATH && \
-		ZTR_PATH=$dir/ztr.zsh && \
+		ZTR_PATH=$__ztr_dir/ztr.zsh && \
 		typeset -gr ZTR_PATH
 
 	typeset -g +r ZTR_VERSION >/dev/null && \
 		ZTR_VERSION=1.0.0 && \
 		typeset -gr ZTR_VERSION
-
-	# export
-	export ZTR_PATH
 }
 
 __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes unless "quiet".

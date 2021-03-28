@@ -153,49 +153,6 @@ FAIL failing exit code
 1
 ```
 
-Save a test suite and run it from a file:
-
-1. Prepare your test suite. Make sure to include
-
-    ```
-    source $ZTR_PATH
-    ```
-
-    before any calls to `ztr`.
-
-    For example you might end up with
-
-    ```shell
-    % cat suite.ztr
-    source $ZTR_PATH
-    my_test=false
-
-    ztr test true 'my first test'
-    ztr test my_test 'my second test'
-    ztr test 'my_test && true' 'my third test' 'depends on my second test'
-    ztr skip my_other_test 'my other test' '@TODO build the api for this!'
-
-    echo
-    ztr summary
-    ```
-
-1. Run your test suite
-
-    ```shell
-    % zsh suite.ztr # don't miss the `zsh` here
-    PASS my first test
-    FAIL my second test
-    FAIL my third test
-    	depends on my second test
-    SKIP my other test
-    	@TODO build the api for this!
-
-    4 tests total
-    2 (40%) failed
-    1 was skipped
-    1 (20%) passed
-    ```
-
 #### `(--quiet | -q)`
 
 Optionally silence output.
@@ -243,6 +200,117 @@ FAIL my_test_30
 # Ok let's see if fixing my_test_10 fixes my_test_20 and my_test_30
 ```
 
+#### Running test suites
+
+You can run a test suite from a file. The following examples suppose the file is in the current working directory; adjust the path to meet your situation.
+
+1. Prepare your test suite.
+
+    ```shell
+    % cat suite.ztr
+    my_test=false
+
+    ztr test true 'my first test'
+    ztr test my_test 'my second test'
+    ztr test 'my_test && true' 'my third test' 'depends on my second test'
+    ztr skip my_other_test 'my other test' '@TODO build the api for this!'
+
+    echo
+    ztr summary
+    ```
+
+1. Run your test suite either by
+
+    - sourcing it:
+
+        ```shell
+        % . ./suite.ztr # or the longhand `source ./suite.ztr`
+        PASS my first test
+        FAIL my second test
+        FAIL my third test
+        	depends on my second test
+        SKIP my other test
+        	@TODO build the api for this!
+
+        4 tests total
+        2 (40%) failed
+        1 was skipped
+        1 (20%) passed
+        ```
+
+        This method has advantage that the results are available to the parent shell. It has the potential disadvantage that any other side effects of your tests are not sandboxed.
+
+        ```shell
+        % ztr clear
+
+        % zsh suite.ztr
+        # --- snip ---
+        4 tests total
+        2 (40%) failed
+        1 was skipped
+        1 (20%) passed
+
+        % ztr summary # suite's summary not available
+        4 tests total
+        2 (50%) failed
+        1 was skipped
+        1 (25%) passed
+
+        % echo $my_test # suite's context available
+        false
+        ```
+
+    - running it in a subshell
+
+        > In this case you must explicitly source `ztr.zsh` in your test suite. zsh-test-runner provides the variable `ZTR_PATH` to make this easy
+
+        ```shell
+        % cat suite.ztr
+        source $ZTR_PATH
+        # --- snip ---
+        ```
+
+        To run the suite in a subshell pass the file to `zsh`:
+
+        ```shell
+        % zsh suite.ztr
+        PASS my first test
+        FAIL my second test
+        FAIL my third test
+        	depends on my second test
+        SKIP my other test
+        	@TODO build the api for this!
+
+        4 tests total
+        2 (40%) failed
+        1 was skipped
+        1 (20%) passed
+        ```
+
+        This method has the potential advantage of sandboxing your tests. It has the potential disadvantage that the results are not available to the parent shell.
+
+        ```shell
+        % ztr clear
+
+        % zsh suite.ztr
+        # --- snip ---
+        4 tests total
+        2 (40%) failed
+        1 was skipped
+        1 (20%) passed
+
+        % ztr summary # suite's summary not available
+        0 tests total
+        0 failed
+        0 were skipped
+        0 passed
+
+        % echo $my_test # suite's context not available
+
+        ```
+
+##### Examples
+
 ### `( --help | -h | help)`
 
 Show the manpage.
@@ -289,11 +357,11 @@ Use `ztr clear` to zero out count variables:
 
 ### Configuration
 
-| Variable  | Type    | Default | Use                                                   |
+| Variable  | Type    | Default | Use                                                                                                                                                |
 | --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
 | NO_COLOR  | any     |         | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
-| ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                 |
-| ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet` |
+| ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                                                                                                              |
+| ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
 
 ### Other
 
