@@ -13,7 +13,7 @@ Features:
 -   access cumulative failure, pass, and skip counts as shell variables
 -   print coverage summaries with test count, failure count and rate, pass count and rate, and skip count
 
-What it does not feature: its own custom semantic API. There's no "describe", "expect", etc. zsh-test-runner is not bats or ZUnit (or rspec, or cypress, or…). Tests rely on the shell's native determination of success.
+What it does not feature: its own human language-like declarative test syntax. There's no "describe", "expect", etc. Downside is the tests don't read like a story. Upside is —because the shell already has rich support for tests— there is nothing to learn, there are no artificial limits on what can be tested, the cost to migrating to zsh-test-runner (or from, if you must) is very low, and tests are completely reliable with no question of whether they were correctly implemented. Just write your `[[ ]]`s, your `(( ))`s, even your `test`s or `[ ]`s, and never again punt on testing.
 
 ## Installation
 
@@ -104,7 +104,14 @@ PASS true
 FAIL false
 ```
 
-If `<arg>` will error when passed to `eval`, quote it.
+In practice `<arg>` will most likely be a shell test expression.
+
+```shell
+% ztr test '[[ 1 == 1 ]]'
+PASS [[ 1 == 1 ]]
+```
+
+Note that `<arg>` is passed to `eval`, so 1) don't pass something you don't want to `eval` and 2) watch out for quotation errors.
 
 ```shell
 % ztr test [[ 1 == 1 ]]
