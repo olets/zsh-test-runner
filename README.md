@@ -384,6 +384,22 @@ You can run a test suite from a file. The following examples suppose the file is
         %
         ```
 
+To write a log to a file simply redirect the zsh-test-runner output. To prevent ANSI codes from cluttering the log, disable `ztr`'s color support (see [configuration variables](#configuration)).
+
+-   if you have already disabled colored output, run the tests:
+
+    ```shell
+    % . ./suite.ztr > ./suite.ztr.log # or `zsh` instead of `.`
+    ```
+
+-   if you have not already disabled colored output, do so temporarily while running the tests:
+
+    ```shell
+    % NO_COLOR=
+    % . ./suite.ztr > ./suite.ztr.log # or `zsh` instead of `.`
+    % unset NO_COLOR
+    ```
+
 ### Examples
 
 [`zsh-abbr`](https://github.com/olets/zsh-abbr) uses zsh-test-runner for its test suite. For a real world example of `ztr` use, check out [`zsh-abbr/tests/abbr.ztr`](https://github.com/olets/zsh-abbr/blob/main/tests/abbr.ztr).
