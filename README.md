@@ -268,13 +268,13 @@ You can run a test suite from a file. The following examples suppose the file is
         1 was skipped
         1 (20%) passed
 
-        % ztr summary # suite's summary not available
+        % ztr summary # suite's summary is available
         4 tests total
         2 (50%) failed
         1 was skipped
         1 (25%) passed
 
-        % echo $my_test # suite's context available
+        % echo $my_test # suite's context is available
         false
         ```
 
@@ -317,14 +317,15 @@ You can run a test suite from a file. The following examples suppose the file is
         1 was skipped
         1 (20%) passed
 
-        % ztr summary # suite's summary not available
+        % ztr summary # suite's summary is not available
         0 tests total
         0 failed
         0 were skipped
         0 passed
 
-        % echo $my_test # suite's context not available
+        % echo $my_test # suite's context is not available
 
+        %
         ```
 
 ###### Examples
