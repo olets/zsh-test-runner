@@ -38,6 +38,17 @@ __ztr_init() { # Set variables.
 	local dir && \
 		dir=${0:A:h}
 
+	# -g
+	typeset -g fail_color pass_color skip_color
+
+	# if NO_COLOR has not been declared
+	if ! typeset -p NO_COLOR 2>/dev/null | grep -q '^'; then
+		'builtin' 'autoload' -U colors && colors
+		fail_color="$fg[red]"
+		pass_color="$fg[green]"
+		skip_color="$fg[yellow]"
+	fi
+
 	# -gi
 	typeset -gi ZTR_DEBUG >/dev/null && \
 		ZTR_DEBUG=${ZTR_DEBUG:-0}
@@ -88,13 +99,13 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	exit_code=$?
 
 	if (( exit_code )); then
-		result="$fg[red]FAIL$reset_color"
+		result="${fail_color}FAIL$reset_color"
 
 		typeset -gi +r ZTR_COUNT_FAIL
 		(( ZTR_COUNT_FAIL++ ))
 		typeset -gir ZTR_COUNT_FAIL
 	else
-		result="$fg[green]PASS$reset_color"
+		result="${pass_color}PASS$reset_color"
 
 		typeset -gi +r ZTR_COUNT_PASS
 		(( ZTR_COUNT_PASS++ ))
@@ -123,7 +134,7 @@ __ztr_skip() { # Skip <arg>.
 	typeset -gir ZTR_COUNT_SKIP
 
 	if (( ! __ztr_quiet )); then
-		'builtin' 'echo' "$fg[yellow]SKIP$reset_color ${name:-$arg}${notes:+\\n    $notes}"
+		'builtin' 'echo' "${skip_color}SKIP$reset_color ${name:-$arg}${notes:+\\n    $notes}"
 	fi
 }
 
@@ -147,15 +158,15 @@ __ztr_summary() { # Pretty-print summary of counts.
 		'builtin' 'print' $total tests total
 	fi
 
-	'builtin' 'print' $fg[red]$ZTR_COUNT_FAIL ${rate_fail:+"(${rate_fail}%)"} failed$reset_color
+	'builtin' 'print' $fail_color$ZTR_COUNT_FAIL ${rate_fail:+"(${rate_fail}%)"} failed$reset_color
 
 	if (( ZTR_COUNT_SKIP == 1 )); then
-		'builtin' 'print' $fg[yellow]$ZTR_COUNT_SKIP was skipped$reset_color
+		'builtin' 'print' $skip_color$ZTR_COUNT_SKIP was skipped$reset_color
 	else
-		'builtin' 'print' $fg[yellow]$ZTR_COUNT_SKIP were skipped$reset_color
+		'builtin' 'print' $skip_color$ZTR_COUNT_SKIP were skipped$reset_color
 	fi
 
-	'builtin' 'print' $fg[green]$ZTR_COUNT_PASS ${rate_pass:+"(${rate_pass}%)"} passed$reset_color
+	'builtin' 'print' $pass_color$ZTR_COUNT_PASS ${rate_pass:+"(${rate_pass}%)"} passed$reset_color
 }
 
 __ztr_version() { # Print the command name and current version.

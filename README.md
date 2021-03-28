@@ -283,7 +283,8 @@ Use `ztr clear` to zero out count variables:
 ### Configuration
 
 | Variable  | Type    | Default | Use                                                   |
-| --------- | ------- | ------- | ----------------------------------------------------- |
+| --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NO_COLOR  | any     |         | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
 | ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                 |
 | ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet` |
 
