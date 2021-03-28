@@ -10,6 +10,10 @@
 typeset -g __ztr_dir && \
 	__ztr_dir=${0:A:h}
 
+typeset -g +r ZTR_VERSION >/dev/null && \
+	ZTR_VERSION=1.0.0 && \
+	typeset -gr ZTR_VERSION
+
 __ztr_clear() { # Clear counts.
 	emulate -LR zsh
 	__ztr_debugger
@@ -74,10 +78,6 @@ __ztr_init() { # Set variables.
 	typeset -g +r ZTR_PATH && \
 		ZTR_PATH=$__ztr_dir/ztr.zsh && \
 		typeset -gr ZTR_PATH
-
-	typeset -g +r ZTR_VERSION >/dev/null && \
-		ZTR_VERSION=1.0.0 && \
-		typeset -gr ZTR_VERSION
 }
 
 __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes unless "quiet".
