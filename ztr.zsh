@@ -11,7 +11,7 @@ typeset -g __ztr_dir && \
 	__ztr_dir=${0:A:h}
 
 typeset -g +r ZTR_VERSION >/dev/null && \
-	ZTR_VERSION=1.0.0 && \
+	ZTR_VERSION=1.1.0 && \
 	typeset -gr ZTR_VERSION
 
 __ztr_clear() { # Clear counts.
