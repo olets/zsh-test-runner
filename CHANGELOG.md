@@ -1,3 +1,9 @@
+# [v1.1.1](https://github.com/olets/zsh-test-runner/compare/v1.1.1...v) (2021-03-28)
+
+### Features
+
+-   **skip, summary, test:** check NO_COLOR preference every time ([8b024d8](https://github.com/olets/zsh-test-runner/commit/8b024d81774a1310053fd8ff54c954a00b4891d5))
+
 # [v1.1.0](https://github.com/olets/zsh-test-runner/compare/v1.0.0...v1.1.0) (2021-03-28)
 
 ### Features
