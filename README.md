@@ -13,7 +13,7 @@ Features:
 -   access cumulative failure, pass, and skip counts as shell variables
 -   print coverage summaries with test count, failure count and rate, pass count and rate, and skip count
 
-What it does not feature: its own human language-like declarative test syntax. There's no "describe", "expect", etc. Downside is the tests don't read like a story. Upside is —because the shell already has rich support for tests— there is nothing to learn, there are no artificial limits on what can be tested, the cost to migrating to zsh-test-runner (or from, if you must) is very low, and tests are completely reliable with no question of whether they were correctly implemented. Just write your `[[ ]]`s, your `(( ))`s, even your `test`s or `[ ]`s, and never again punt on testing.
+What it does not feature: its own human language-like declarative test syntax. There's no "describe", "expect", etc. Downside is the tests don't read like a story. Upside is —because the shell already has rich support for tests— there is nothing to learn, there are no artificial limits on what can be tested, the cost to migrating to zsh-test-runner (or from, if you must) is very low, and there is no risk that assertions were incorrectly implemented. Just write your `[[ ]]`s, your `(( ))`s, even your `test`s or `[ ]`s, and never again punt on testing.
 
 ## Installation
 
