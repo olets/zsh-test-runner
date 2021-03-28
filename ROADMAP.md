@@ -3,6 +3,7 @@
 ## Done, not yet released
 
 -   [x] CLI completion definitions
+-   [x] No $reset_color color codes in output if NO_COLOR is enabled
 
 ## Next
 
