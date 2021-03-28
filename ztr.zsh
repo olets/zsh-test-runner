@@ -31,9 +31,9 @@ __ztr_get_use_color() {
 }
 
 __ztr_debugger() { # Print name of caller function.
-  emulate -LR zsh
+	emulate -LR zsh
 
-  (( ZTR_DEBUG )) && 'builtin' 'print' $funcstack[2]
+	(( ZTR_DEBUG )) && 'builtin' 'print' $funcstack[2]
 }
 
 __ztr_help() { # Show the manpage.
