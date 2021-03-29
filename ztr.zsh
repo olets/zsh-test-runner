@@ -51,9 +51,6 @@ __ztr_init() { # Set variables.
 		'builtin' 'autoload' -U colors && colors
 	fi
 
-	# -g
-	typeset -g color_failed color_passed color_skipped
-
 	# -gAr
 	typeset -gA +r __ztr_colors && \
 		__ztr_colors=(
