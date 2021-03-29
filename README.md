@@ -218,7 +218,65 @@ FAIL my_test_30
 # Ok let's see if fixing my_test_10 fixes my_test_20 and my_test_30
 ```
 
-##### Running test suites
+#### `( --help | -h | help)`
+
+Show the manpage.
+
+#### `( --version | -v | version )`
+
+Print the command name and current version.
+
+### Variables
+
+#### Counts
+
+| Variable       | Type    | Default | Use                                         |
+| -------------- | ------- | ------- | ------------------------------------------- |
+| ZTR_COUNT_FAIL | integer | 0       | The number of tests which have failed       |
+| ZTR_COUNT_PASS | integer | 0       | The number of tests which have passed       |
+| ZTR_COUNT_SKIP | integer | 0       | The number of tests which have been skipped |
+
+Note that "tests" in the above are not necessarily unique:
+
+```shell
+% ztr test true --quiet
+% echo $ZTR_COUNT_PASS
+1
+% ztr test true --quiet
+% echo $ZTR_COUNT_PASS
+2
+```
+
+Use `ztr clear` to zero out count variables:
+
+```shell
+% ztr test true --quiet
+% ztr clear
+% echo $ZTR_COUNT_PASS
+0
+```
+
+`ZTR_COUNT_FAIL` is a convenient way to check for 100% pass rate:
+
+```
+% (( ZTR_COUNT_FAIL )) || echo all tests pass
+```
+
+#### Configuration
+
+| Variable  | Type    | Default | Use                                                                                                                                                |
+| --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| NO_COLOR  | any     |         | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
+| ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                                                                                                              |
+| ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
+
+#### Other
+
+| Variable | Type   | Use                                                       |
+| -------- | ------ | --------------------------------------------------------- |
+| ZTR_PATH | string | `source $ZTR_PATH` in scripts that include `ztr` commands |
+
+## Running test suites
 
 You can run a test suite from a file. The following examples suppose the file is in the current working directory; adjust the path to meet your situation.
 
@@ -328,67 +386,9 @@ You can run a test suite from a file. The following examples suppose the file is
         %
         ```
 
-###### Examples
+### Examples
 
 [`zsh-abbr`](https://github.com/olets/zsh-abbr) uses zsh-test-runner for its test suite. For real world example of `ztr` use, check out [`zsh-abbr/tests/abbr.ztr`](https://github.com/olets/zsh-abbr/blob/main/tests/abbr.ztr).
-
-#### `( --help | -h | help)`
-
-Show the manpage.
-
-#### `( --version | -v | version )`
-
-Print the command name and current version.
-
-### Variables
-
-#### Counts
-
-| Variable       | Type    | Default | Use                                         |
-| -------------- | ------- | ------- | ------------------------------------------- |
-| ZTR_COUNT_FAIL | integer | 0       | The number of tests which have failed       |
-| ZTR_COUNT_PASS | integer | 0       | The number of tests which have passed       |
-| ZTR_COUNT_SKIP | integer | 0       | The number of tests which have been skipped |
-
-Note that "tests" in the above are not necessarily unique:
-
-```shell
-% ztr test true --quiet
-% echo $ZTR_COUNT_PASS
-1
-% ztr test true --quiet
-% echo $ZTR_COUNT_PASS
-2
-```
-
-Use `ztr clear` to zero out count variables:
-
-```shell
-% ztr test true --quiet
-% ztr clear
-% echo $ZTR_COUNT_PASS
-0
-```
-
-`ZTR_COUNT_FAIL` is a convenient way to check for 100% pass rate:
-
-```
-% (( ZTR_COUNT_FAIL )) || echo all tests pass
-```
-
-#### Configuration
-
-| Variable  | Type    | Default | Use                                                                                                                                                |
-| --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| NO_COLOR  | any     |         | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
-| ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                                                                                                              |
-| ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
-
-#### Other
-
-| Variable | Type   | Use                                                       |
-| -------- | ------ | --------------------------------------------------------- |
-| ZTR_PATH | string | `source $ZTR_PATH` in scripts that include `ztr` commands |
 
 ## Changelog
 
