@@ -36,6 +36,12 @@ __ztr_debugger() { # Print name of caller function.
 	(( ZTR_DEBUG )) && 'builtin' 'print' $funcstack[2]
 }
 
+__ztr_eval() {
+	emulate -LR $__ztr_emulation_mode
+
+	eval $*
+}
+
 __ztr_help() { # Show the manpage.
 	emulate -LR zsh
 	__ztr_debugger
@@ -50,6 +56,10 @@ __ztr_init() { # Set variables.
 	if __ztr_get_use_color; then
 		'builtin' 'autoload' -U colors && colors
 	fi
+
+	# -g
+	typeset -g ZTR_EMULATION_MODE && \
+		ZTR_EMULATION_MODE=${ZTR_EMULATION_MODE:-zsh}
 
 	# -gAr
 	typeset -gA +r __ztr_colors && \
@@ -97,7 +107,7 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 		color_passed="$__ztr_colors[passed]"
 	fi
 
-	eval $arg &>/dev/null
+	__ztr_eval $arg &>/dev/null
 
 	exit_code=$?
 
@@ -197,16 +207,27 @@ ztr() {
 
 	typeset -a args
 	typeset -i clear run_test skip_test summary
+	typeset -g __ztr_emulation_mode
 	typeset -gi __ztr_quiet
 
+	__ztr_emulation_mode=$ZTR_EMULATION_MODE
 	__ztr_quiet=$ZTR_QUIET
 
-	for opt in "$@"; do
-		if (( should_exit )); then
-			return
-		fi
+	# local cmd
+	# cmd=$1
+	# shift
 
-		case $opt in
+	# if [[ $cmd == ]]
+
+	# zparseopts -A -D -E opts -
+
+	# for opt in "$@"; do
+	while (( $# )); do
+		case $1 in
+			"--emulate")
+				__ztr_emulation_mode=$2
+				shift 2
+				;;
 			"--help"|\
 			"-h"|\
 			"help")
@@ -242,7 +263,7 @@ ztr() {
 				;;
 			# "version" see "--version"
 			*)
-				args+=( $opt )
+				args+=( $1 )
 				shift
 				;;
 		esac
