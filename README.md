@@ -54,13 +54,13 @@ exec zsh
 ztr clear
 
 # Skip `<arg>`. Pretty-print result and notes unless "quiet".
-ztr skip [--quiet | -q] <arg> [<name> [<notes>]]
+ztr skip ([--quiet | -q)] <arg> [<name> [<notes>]]
 
 # Pretty-print summary of results
 ztr summary
 
 # Test `<arg>`. Pretty-print result and notes unless "quiet".
-ztr test [--quiet | -q] <arg> [<name> [<notes>]]
+ztr test ([--quiet | -q)] <arg> [<name> [<notes>]]
 ```
 
 ### Commands
@@ -82,7 +82,7 @@ FAIL false
 0 passed
 ```
 
-#### `skip [--quiet | -q] <arg> [<name> [<notes>]]`
+#### `skip [(--quiet | -q)] <arg> [<name> [<notes>]]`
 
 Skip `<arg>`. Pretty-print result and notes unless "quiet".
 
@@ -109,7 +109,7 @@ FAIL false
 1 (50%) passed
 ```
 
-#### `test [--quiet | -q] <arg> [<name> [<notes>]]`
+#### `test [(--quiet | -q)] <arg> [<name> [<notes>]]`
 
 Test `<arg>`. Pretty-print result and notes unless "quiet".
 
