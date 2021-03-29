@@ -37,7 +37,9 @@ __ztr_debugger() { # Print name of caller function.
 }
 
 __ztr_eval() {
-	emulate -LR $__ztr_emulation_mode
+	emulate -LR $__ztr_emulation_mode_requested
+
+	__ztr_emulation_mode_used=$(emulate)
 
 	eval $*
 }
@@ -126,7 +128,10 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	fi
 
 	if (( ! __ztr_quiet )); then
-		'builtin' 'echo' "$result ${name:-$arg}${notes:+\\n    $notes}"
+		'builtin' 'print' "$result ${name:-$arg}${notes:+\\n    $notes}"
+
+		[[ $__ztr_emulation_mode_used != zsh ]] \
+			&& 'builtin' 'print' "    emulation mode: $__ztr_emulation_mode_used"
 	fi
 
 	return $exit_code
@@ -207,25 +212,17 @@ ztr() {
 
 	typeset -a args
 	typeset -i clear run_test skip_test summary
-	typeset -g __ztr_emulation_mode
+	typeset -g __ztr_emulation_mode_requested
+	typeset -g __ztr_emulation_mode_used
 	typeset -gi __ztr_quiet
 
-	__ztr_emulation_mode=$ZTR_EMULATION_MODE
+	__ztr_emulation_mode_requested=$ZTR_EMULATION_MODE
 	__ztr_quiet=$ZTR_QUIET
 
-	# local cmd
-	# cmd=$1
-	# shift
-
-	# if [[ $cmd == ]]
-
-	# zparseopts -A -D -E opts -
-
-	# for opt in "$@"; do
 	while (( $# )); do
 		case $1 in
 			"--emulate")
-				__ztr_emulation_mode=$2
+				__ztr_emulation_mode_requested=$2
 				shift 2
 				;;
 			"--help"|\

@@ -187,6 +187,10 @@ Use one of zsh's emulation modes (see "`emulate`" in [_The Z Shell Manual_, chap
 
 For example, `<shell>` could be `csh`, `ksh`, or `sh`.
 
+> Note that zsh's `emulate` builtin treats anything starting with `s` or `b` is treated as `sh` (the **B**ourne **s**hell).
+
+If an unsupported option is passed, `zsh` is the fallback. If anything other than `zsh` is used a note is printed after the result, indented.
+
 The following examples rely on the fact that when called without any arguments the zsh builtin `emulate` prints the current emulation mode.
 
 ```shell
@@ -194,6 +198,7 @@ The following examples rely on the fact that when called without any arguments t
 PASS [[ $(emulate) == zsh ]]
 % ztr test --emulate sh '[[ $(emulate) == zsh ]]'
 FAIL [[ $(emulate) == zsh ]]
+    emulation mode: sh
 % ztr test --emulate sh '[[ $(emulate) == sh ]]'
 PASS [[ $(emulate) == sh ]]
 ```
