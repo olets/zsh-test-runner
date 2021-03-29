@@ -50,13 +50,13 @@ exec zsh
 ## Usage
 
 ```shell
-# Clear counts.
+# Clear results.
 ztr clear
 
 # Skip `<arg>`. Pretty-print result and notes unless "quiet".
 ztr skip [--quiet | -q] <arg> [<name> [<notes>]]
 
-# Pretty-print summary of counts
+# Pretty-print summary of results
 ztr summary
 
 # Test `<arg>`. Pretty-print result and notes unless "quiet".
@@ -67,7 +67,7 @@ ztr test [--quiet | -q] <arg> [<name> [<notes>]]
 
 #### `clear`
 
-Clear counts.
+Clear results.
 
 ```shell
 % ztr test true
@@ -95,7 +95,7 @@ See [`test` command](#test) for details about `--quiet`, `<name>`, and `<notes>`
 
 #### `summary`
 
-Pretty-print summary of counts.
+Pretty-print summary of results.
 
 ```shell
 % ztr test true
@@ -226,53 +226,51 @@ Print the command name and current version.
 
 ### Variables
 
-#### Counts
+#### Results
 
-| Variable       | Type    | Default | Use                                         |
-| -------------- | ------- | ------- | ------------------------------------------- |
-| ZTR_COUNT_FAIL | integer | 0       | The number of tests which have failed       |
-| ZTR_COUNT_PASS | integer | 0       | The number of tests which have passed       |
-| ZTR_COUNT_SKIP | integer | 0       | The number of tests which have been skipped |
+| Variable      | Type              | Default                        | Use                 |
+| ------------- | ----------------- | ------------------------------ | ------------------- |
+| `ZTR_RESULTS` | associative array | `([fail]=0 [pass]=0 [skip]=0)` | The running results |
 
 Note that "tests" in the above are not necessarily unique:
 
 ```shell
 % ztr test true --quiet
-% echo $ZTR_COUNT_PASS
+% echo $ZTR_RESULTS[pass]
 1
 % ztr test true --quiet
-% echo $ZTR_COUNT_PASS
+% echo $ZTR_RESULTS[pass]
 2
 ```
 
-Use `ztr clear` to zero out count variables:
+Use `ztr clear` to zero out results:
 
 ```shell
 % ztr test true --quiet
 % ztr clear
-% echo $ZTR_COUNT_PASS
-0
+% echo $ZTR_RESULTS
+0 0 0
 ```
 
-`ZTR_COUNT_FAIL` is a convenient way to check for 100% pass rate:
+`ZTR_RESULTS[fail]` is a convenient way to check for 100% pass rate:
 
 ```
-% (( ZTR_COUNT_FAIL )) || echo all tests pass
+% (( ZTR_RESULTS[fail] )) || echo all tests pass
 ```
 
 #### Configuration
 
-| Variable  | Type    | Default | Use                                                                                                                                                |
-| --------- | ------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| NO_COLOR  | any     |         | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
-| ZTR_DEBUG | integer | 0       | If non-zero, print debugging messages                                                                                                              |
-| ZTR_QUIET | integer | 0       | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
+| Variable    | Type    | Default    | Use                                                                                                                                                |
+| ----------- | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NO_COLOR`  | any     | undeclared | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
+| `ZTR_DEBUG` | integer | `0`        | If non-zero, print debugging messages                                                                                                              |
+| `ZTR_QUIET` | integer | `0`        | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
 
 #### Other
 
-| Variable | Type   | Use                                                       |
-| -------- | ------ | --------------------------------------------------------- |
-| ZTR_PATH | string | `source $ZTR_PATH` in scripts that include `ztr` commands |
+| Variable   | Type   | Use                                                       |
+| ---------- | ------ | --------------------------------------------------------- |
+| `ZTR_PATH` | string | `source $ZTR_PATH` in scripts that include `ztr` commands |
 
 ## Running test suites
 

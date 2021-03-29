@@ -18,11 +18,11 @@ __ztr_clear() { # Clear counts.
 	emulate -LR zsh
 	__ztr_debugger
 
-	typeset -gi +r ZTR_COUNT_SKIP ZTR_COUNT_FAIL ZTR_COUNT_PASS
-	ZTR_COUNT_FAIL=0
-	ZTR_COUNT_PASS=0
-	ZTR_COUNT_SKIP=0
-	typeset -gir ZTR_COUNT_SKIP ZTR_COUNT_FAIL ZTR_COUNT_PASS
+	typeset -gA +r ZTR_RESULTS
+	ZTR_RESULTS[failed]=0
+	ZTR_RESULTS[passed]=0
+	ZTR_RESULTS[skipped]=0
+	typeset -gAr ZTR_RESULTS
 }
 
 __ztr_get_use_color() {
@@ -64,22 +64,19 @@ __ztr_init() { # Set variables.
 		) && \
 		typeset -gAr __ztr_colors
 
+	typeset -gA +r ZTR_RESULTS && \
+		ZTR_RESULTS=(
+			[fail]=${ZTR_RESULTS[fail]:-0}
+			[pass]=${ZTR_RESULTS[pass]:-0}
+			[skip]=${ZTR_RESULTS[skip]:-0}
+		) && \
+		typeset -gAr ZTR_RESULTS
+
 	# -gi
 	typeset -gi ZTR_DEBUG >/dev/null && \
 		ZTR_DEBUG=${ZTR_DEBUG:-0}
 	typeset -gi ZTR_QUIET >/dev/null && \
 		ZTR_QUIET=${ZTR_QUIET:-0}
-
-	# -gir
-	typeset -gi +r ZTR_COUNT_FAIL && \
-		ZTR_COUNT_FAIL=${ZTR_COUNT_FAIL:-0} && \
-		typeset -gir ZTR_COUNT_FAIL
-	typeset -gi +r ZTR_COUNT_PASS && \
-		ZTR_COUNT_PASS=${ZTR_COUNT_PASS:-0} && \
-		typeset -gir ZTR_COUNT_PASS
-	typeset -gi +r ZTR_COUNT_SKIP && \
-		ZTR_COUNT_SKIP=${ZTR_COUNT_SKIP:-0} && \
-		typeset -gir ZTR_COUNT_SKIP
 
 	# -gr
 	typeset -g +r __ztr_manpage_path && \
@@ -115,15 +112,15 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	if (( exit_code )); then
 		result="${fail_color}FAIL$default_color"
 
-		typeset -gi +r ZTR_COUNT_FAIL
-		(( ZTR_COUNT_FAIL++ ))
-		typeset -gir ZTR_COUNT_FAIL
+		typeset -gA +r ZTR_RESULTS
+		(( ZTR_RESULTS[fail]++ ))
+		typeset -gAr ZTR_RESULTS
 	else
 		result="${pass_color}PASS$default_color"
 
-		typeset -gi +r ZTR_COUNT_PASS
-		(( ZTR_COUNT_PASS++ ))
-		typeset -gir ZTR_COUNT_PASS
+		typeset -gA +r ZTR_RESULTS
+		(( ZTR_RESULTS[pass]++ ))
+		typeset -gAr ZTR_RESULTS
 	fi
 
 	if (( ! __ztr_quiet )); then
@@ -148,9 +145,9 @@ __ztr_skip() { # Skip <arg>.
 		skip_color="$fg[$__ztr_colors[skip]]"
 	fi
 
-	typeset -gi +r ZTR_COUNT_SKIP
-	(( ZTR_COUNT_SKIP++ ))
-	typeset -gir ZTR_COUNT_SKIP
+	typeset -gA +r ZTR_RESULTS
+	(( ZTR_RESULTS[skip]++ ))
+	typeset -gAr ZTR_RESULTS
 
 	if (( ! __ztr_quiet )); then
 		'builtin' 'echo' "${skip_color}SKIP$default_color ${name:-$arg}${notes:+\\n    $notes}"
@@ -171,11 +168,11 @@ __ztr_summary() { # Pretty-print summary of counts.
 		skip_color="$fg[$__ztr_colors[skip]]"
 	fi
 
-	total=$(( ZTR_COUNT_FAIL + ZTR_COUNT_PASS + ZTR_COUNT_SKIP ))
+	total=$(( ZTR_RESULTS[fail] + ZTR_RESULTS[pass] + ZTR_RESULTS[skip] ))
 
 	if (( total )); then
-		(( ZTR_COUNT_FAIL )) && (( rate_fail=ZTR_COUNT_FAIL*100/total ))
-		(( ZTR_COUNT_PASS )) && (( rate_pass=ZTR_COUNT_PASS*100/total ))
+		(( ZTR_RESULTS[fail] )) && (( rate_fail=ZTR_RESULTS[fail]*100/total ))
+		(( ZTR_RESULTS[pass] )) && (( rate_pass=ZTR_RESULTS[pass]*100/total ))
 	fi
 
 	if (( total == 1 )); then
@@ -184,15 +181,15 @@ __ztr_summary() { # Pretty-print summary of counts.
 		'builtin' 'print' $total tests total
 	fi
 
-	'builtin' 'print' $fail_color$ZTR_COUNT_FAIL ${rate_fail:+"(${rate_fail}%)"} failed$default_color
+	'builtin' 'print' $fail_color$ZTR_RESULTS[fail] ${rate_fail:+"(${rate_fail}%)"} failed$default_color
 
-	if (( ZTR_COUNT_SKIP == 1 )); then
-		'builtin' 'print' $skip_color$ZTR_COUNT_SKIP was skipped$default_color
+	if (( ZTR_RESULTS[skip] == 1 )); then
+		'builtin' 'print' $skip_color$ZTR_RESULTS[skip] was skipped$default_color
 	else
-		'builtin' 'print' $skip_color$ZTR_COUNT_SKIP were skipped$default_color
+		'builtin' 'print' $skip_color$ZTR_RESULTS[skip] were skipped$default_color
 	fi
 
-	'builtin' 'print' $pass_color$ZTR_COUNT_PASS ${rate_pass:+"(${rate_pass}%)"} passed$default_color
+	'builtin' 'print' $pass_color$ZTR_RESULTS[pass] ${rate_pass:+"(${rate_pass}%)"} passed$default_color
 }
 
 __ztr_version() { # Print the command name and current version.
