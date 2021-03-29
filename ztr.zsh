@@ -86,6 +86,8 @@ __ztr_init() { # Set variables.
 		ZTR_DEBUG=${ZTR_DEBUG:-0}
 	typeset -gi ZTR_QUIET >/dev/null && \
 		ZTR_QUIET=${ZTR_QUIET:-0}
+	typeset -gi ZTR_QUIET_EMULATION_MODE >/dev/null && \
+		ZTR_QUIET_EMULATION_MODE=${ZTR_QUIET_EMULATION_MODE:-0}
 
 	typeset -g +r ZTR_PATH && \
 		ZTR_PATH=$__ztr_dir/ztr.zsh && \
@@ -130,7 +132,7 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	if (( ! __ztr_quiet )); then
 		'builtin' 'print' "$result ${name:-$arg}${notes:+\\n    $notes}"
 
-		[[ $__ztr_emulation_mode_used != zsh ]] \
+		(( ! __ztr_quiet_emulation_mode )) && [[ $__ztr_emulation_mode_used != zsh ]] \
 			&& 'builtin' 'print' "    emulation mode: $__ztr_emulation_mode_used"
 	fi
 
@@ -215,15 +217,21 @@ ztr() {
 	typeset -g __ztr_emulation_mode_requested
 	typeset -g __ztr_emulation_mode_used
 	typeset -gi __ztr_quiet
+	typeset -gi __ztr_quiet_emulation_mode
 
 	__ztr_emulation_mode_requested=$ZTR_EMULATION_MODE
 	__ztr_quiet=$ZTR_QUIET
+	__ztr_quiet_emulation_mode=$ZTR_QUIET_EMULATION_MODE
 
 	while (( $# )); do
 		case $1 in
 			"--emulate")
 				__ztr_emulation_mode_requested=$2
 				shift 2
+				;;
+			"--quiet-emulate")
+				__ztr_quiet_emulation_mode=1
+				shift
 				;;
 			"--help"|\
 			"-h"|\

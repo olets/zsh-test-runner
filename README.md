@@ -54,7 +54,7 @@ exec zsh
 ztr clear
 
 # Skip `<arg>`. Pretty-print result and notes unless "quiet".
-ztr skip ([--quiet | -q)] <arg> [<name> [<notes>]]
+ztr skip ([--quiet | -q)] [--emulate <shell>] [--quiet-emulate] </shell><arg> [<name> [<notes>]]
 
 # Pretty-print summary of results
 ztr summary
@@ -109,7 +109,7 @@ FAIL false
 1 (50%) passed
 ```
 
-#### `test [(--quiet | -q)] [--emulate <shell>] <arg> [<name> [<notes>]]`
+#### `test [(--quiet | -q)] [--emulate <shell>] [--quiet-emulate] <arg> [<name> [<notes>]]`
 
 Test `<arg>`. Pretty-print result and notes unless "quiet".
 
@@ -205,6 +205,15 @@ PASS [[ $(emulate) == sh ]]
 
 If you always emulate a different shell, consider setting `ZSH_EMULATION_MODE` instead of always passing the `--emulate` option.
 
+#### `--quiet-emulate`
+
+Optionally do not warn when a non-zsh shell is emulated.
+
+```
+% ztr test --emulate sh --quiet-emulate '[[ $(emulate) == zsh ]]'
+FAIL [[ $(emulate) == zsh ]]
+```
+
 ##### `<name>`
 
 Optionally pass a name as a second parameter.
@@ -284,12 +293,13 @@ Use `ztr clear` to zero out results:
 
 #### Configuration
 
-| Variable             | Type    | Default    | Use                                                                                                                                                |
-| -------------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NO_COLOR`           | any     | undeclared | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
-| `ZTR_DEBUG`          | integer | `0`        | If non-zero, print debugging messages                                                                                                              |
-| `ZTR_EMULATION_MODE` | string  | `zsh`      | The emulation mode to use                                                                                                                          |
-| `ZTR_QUIET`          | integer | `0`        | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
+| Variable                   | Type    | Default    | Use                                                                                                                                                |
+| -------------------------- | ------- | ---------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NO_COLOR`                 | any     | undeclared | To suppress color output, set to any value or simply declare (`NO_COLOR=`) in `.zshrc` before loading zsh-test-runner. See <https://no-color.org/> |
+| `ZTR_DEBUG`                | integer | `0`        | If non-zero, print debugging messages                                                                                                              |
+| `ZTR_EMULATION_MODE`       | string  | `zsh`      | The emulation mode to use                                                                                                                          |
+| `ZTR_QUIET`                | integer | `0`        | If non-zero, use quiet mode without passing `--quiet`                                                                                              |
+| `ZTR_QUIET_EMULATION_MODE` | integer | `0`        | If non-zero, use quiet emulation mode without passing `--quiet-emulate`                                                                            |
 
 #### Other
 
