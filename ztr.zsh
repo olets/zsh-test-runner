@@ -57,9 +57,9 @@ __ztr_init() { # Set variables.
 	# -gAr
 	typeset -gA +r __ztr_colors && \
 		__ztr_colors=(
-			[failed]=red
-			[passed]=green
-			[skipped]=yellow
+			[failed]=$fg[red]
+			[passed]=$fg[green]
+			[skipped]=$fg[yellow]
 			[default]=$reset_color
 		) && \
 		typeset -gAr __ztr_colors
