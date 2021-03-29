@@ -40,7 +40,7 @@ __ztr_help() { # Show the manpage.
 	emulate -LR zsh
 	__ztr_debugger
 
-	'command' 'man' ztr 2>/dev/null || 'command' 'man' $__ztr_manpage_path
+	'command' 'man' ztr 2>/dev/null || 'command' 'man' $__ztr_dir/man/man1/ztr.1
 }
 
 __ztr_init() { # Set variables.
@@ -77,11 +77,6 @@ __ztr_init() { # Set variables.
 		ZTR_DEBUG=${ZTR_DEBUG:-0}
 	typeset -gi ZTR_QUIET >/dev/null && \
 		ZTR_QUIET=${ZTR_QUIET:-0}
-
-	# -gr
-	typeset -g +r __ztr_manpage_path && \
-		__ztr_manpage_path=$__ztr_dir/man/man1/ztr.1 && \
-		typeset -gr __ztr_manpage_path
 
 	typeset -g +r ZTR_PATH && \
 		ZTR_PATH=$__ztr_dir/ztr.zsh && \
