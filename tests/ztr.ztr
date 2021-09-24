@@ -41,10 +41,16 @@ should_fail() {
 	run 1 $@
 }
 
-# counts pt 1
-should_fail "(( ZTR_RESULTS[failed] ))" "fail count starts at zero"
-should_fail "(( ZTR_RESULTS[passed] ))" "pass count starts at zero"
-should_fail "(( ZTR_RESULTS[skipped] ))" "skip count starts at zero"
+# clear
+ztr clear
+ztr --quiet test false
+ztr --quiet test true
+ztr --quiet skip
+typeset -i clear_total
+clear_total=$(( ZTR_RESULTS[failed] && ZTR_RESULTS[passed] && ZTR_RESULTS[skipped] ))
+ztr clear
+should_pass '(( vals )) && [[ $ZTR_RESULTS[failed] == 0 && $ZTR_RESULTS[passed] == 0 && $ZTR_RESULTS[skipped] == 0 ]]' "clear zeros the fail, pass, and skip counts"
+unset clear_total
 
 # basic
 should_pass "ztr test true" "basic pass"
@@ -72,11 +78,6 @@ should_pass "ztr skip false" "skip passes when test would fail"
 should_pass "(( ZTR_RESULTS[failed] ))" "fail count increments"
 should_pass "(( ZTR_RESULTS[passed] ))" "pass count increments"
 should_pass "(( ZTR_RESULTS[skipped] ))" "skip count increments"
-
-# clear
-should_pass 'ztr test false || ztr clear && [[ $ZTR_RESULTS[failed] == 0 ]]' "clear zeros the fail count"
-should_pass 'ztr test true && ztr clear && [[ $ZTR_RESULTS[passed] == 0 ]]' "clear zeros the pass count"
-should_pass 'ztr skip x && ztr clear && [[ $ZTR_RESULTS[skipped] == 0 ]]' "clear zeros the skip count"
 
 
 # ----------------------------------------------------------------
