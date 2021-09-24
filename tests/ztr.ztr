@@ -13,6 +13,7 @@ ztr_results=(
 )
 
 run() {
+	emulate -LR zsh
 	local cmd name result
 	local -i expectation i
 
@@ -34,10 +35,12 @@ run() {
 }
 
 should_pass() {
+	emulate -LR zsh
 	run 0 $@
 }
 
 should_fail() {
+	emulate -LR zsh
 	run 1 $@
 }
 
