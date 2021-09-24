@@ -1,3 +1,15 @@
+# [v1.2.0](https://github.com/olets/zsh-test-runner/compare/v1.1.1...v1.2.0) (2021-09-24)
+
+### Features
+
+-   **completions:** add new + support in plugin use ([3eaa542](https://github.com/olets/zsh-test-runner/commit/3eaa542d4d7541336b21361ed2c9e3dccd6ae8ee))
+-   **results:** counts are in an associate array ZTR_RESULTS ([e5f7969](https://github.com/olets/zsh-test-runner/commit/e5f796960bfab58e69e540f674c390d8ed8cf6d6))
+-   **skip, summary, test:** no color codes if NO_COLOR is declared ([b273bee](https://github.com/olets/zsh-test-runner/commit/b273beee52a4b364456fd133d5128338f74b9d27))
+    -   **color:** more reliable respect for NO_COLOR ([7dc7682](https://github.com/olets/zsh-test-runner/commit/7dc76827203587c5b92fedebb2f5863406bed5f7))
+-   **test:** support emulation modes ([035b0c2](https://github.com/olets/zsh-test-runner/commit/035b0c256641d0b1f1776da06330f22954b4d6f5))
+-   **test:** warn if non-zsh emulation mode used ([a7e779e](https://github.com/olets/zsh-test-runner/commit/a7e779e7d75e4953f2e3e42aff2f4f78167f2896))
+    -   **test:** --quiet-emulate flag silences emulation warning ([7318a1d](https://github.com/olets/zsh-test-runner/commit/7318a1d9198a539ae669fb2ad9273423cefabe9e))
+
 # [v1.1.1](https://github.com/olets/zsh-test-runner/compare/v1.1.1...v) (2021-03-28)
 
 ### Features
