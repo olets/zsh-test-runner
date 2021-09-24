@@ -311,12 +311,15 @@ Use `ztr clear` to zero out results:
 
 You can run a test suite from a file. The following examples suppose the file is in the current working directory; adjust the path to fit your situation.
 
+> ℹ️ Tip: Most test suites should start with `ztr clear`.
+
 1. Prepare your test suite.
 
     ```shell
     % cat suite.ztr
     my_test=false
 
+    ztr clear
     ztr test true 'my first test'
     ztr test my_test 'my second test'
     ztr test 'my_test && true' 'my third test' 'depends on my second test'
@@ -348,8 +351,6 @@ You can run a test suite from a file. The following examples suppose the file is
         This method has advantage that the results are available to the parent shell. It has the potential disadvantage that any other side effects of your tests are not sandboxed.
 
         ```shell
-        % ztr clear
-
         % zsh suite.ztr
         # --- snip ---
         4 tests total
@@ -397,8 +398,6 @@ You can run a test suite from a file. The following examples suppose the file is
         This method has the potential advantage of sandboxing your tests. It has the potential disadvantage that the results are not available to the parent shell.
 
         ```shell
-        % ztr clear
-
         % zsh suite.ztr
         # --- snip ---
         4 tests total
