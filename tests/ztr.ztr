@@ -4,37 +4,41 @@ source ${0:h}/../ztr.zsh
 
 typeset -i failures
 typeset -i passes
+typeset -A ztr_results
 
-should_pass() {
-	local result
+ztr_results=(
+	[failed]=0
+	[skipped]=0
+	[passed]=0
+)
 
-	eval $1 &>/dev/null
+run() {
+	local cmd name result
+	local -i expectation i
 
-	if (( $? )); then
-		(( failures++ ))
-		result="$fg[red]FAIL$reset_color"
-	else
-		(( passes++ ))
+	expectation=$1
+	cmd=$2
+	notes=$3
+
+	eval $cmd &>/dev/null
+
+	if [[ $? == $expectation ]]; then
+		(( ztr_results[passed]++ ))
 		result="$fg[green]PASS$reset_color"
+	else
+		(( ztr_results[failed]++ ))
+		result="$fg[red]FAIL$reset_color"
 	fi
 
-	'builtin' 'print' $result $2
+	'builtin' 'print' $result $notes
+}
+
+should_pass() {
+	run 0 $@
 }
 
 should_fail() {
-	local result
-
-	eval $1 &>/dev/null
-
-	if (( $? )); then
-		(( passes++ ))
-		result="$fg[green]PASS$reset_color"
-	else
-		(( failures++ ))
-		result="$fg[red]FAIL$reset_color"
-	fi
-
-	'builtin' 'print' $result $2
+	run 1 $@
 }
 
 # counts pt 1
@@ -74,7 +78,13 @@ should_pass 'ztr test false || ztr clear && [[ $ZTR_RESULTS[failed] == 0 ]]' "cl
 should_pass 'ztr test true && ztr clear && [[ $ZTR_RESULTS[passed] == 0 ]]' "clear zeros the pass count"
 should_pass 'ztr skip x && ztr clear && [[ $ZTR_RESULTS[skipped] == 0 ]]' "clear zeros the skip count"
 
-'builtin' 'print' \\n$(( passes + failures )) tests were run\
-	\\n$passes passed\
-	\\n$failures failed
-return $failures
+
+# ----------------------------------------------------------------
+# results. all test should be above this point
+
+typeset -gA +r ZTR_RESULTS
+set -A ZTR_RESULTS ${(kv)ztr_results}
+typeset -gAr ZTR_RESULTS
+
+echo
+ztr summary
