@@ -25,9 +25,15 @@ __ztr_clear() { # Clear counts.
 	typeset -gAr ZTR_RESULTS
 }
 
-__ztr_get_use_color() {
-	# succeeds if NO_COLOR has not been declared
-	! typeset -p NO_COLOR 2>/dev/null | grep -q '^'
+__ztr_no_color() {
+	local -a shell_vars
+	local -i found
+
+	shell_vars=( ${(k)parameters} )
+
+	found=$(( ! $shell_vars[(Ie)NO_COLOR] ))
+
+	return $found
 }
 
 __ztr_debugger() { # Print name of caller function.
@@ -55,7 +61,7 @@ __ztr_init() { # Set variables.
 	emulate -LR zsh
 	__ztr_debugger
 
-	if __ztr_get_use_color; then
+	if ! __ztr_no_color; then
 		'builtin' 'autoload' -U colors && colors
 	fi
 
@@ -105,7 +111,7 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	name=$2
 	notes=$3
 
-	if __ztr_get_use_color; then
+	if ! __ztr_no_color; then
 		color_default="$__ztr_colors[default]"
 		color_failed="$__ztr_colors[failed]"
 		color_passed="$__ztr_colors[passed]"
@@ -149,7 +155,7 @@ __ztr_skip() { # Skip <arg>.
 	name=$2
 	notes=$3
 
-	if __ztr_get_use_color; then
+	if ! __ztr_no_color; then
 		color_default="$__ztr_colors[default]"
 		color_skipped="$__ztr_colors[skipped]"
 	fi
@@ -170,7 +176,7 @@ __ztr_summary() { # Pretty-print summary of counts.
 	local color_default color_failed color_passed color_skipped rate_failed rate_passed
 	local -i total
 
-	if __ztr_get_use_color; then
+	if ! __ztr_no_color; then
 		color_default="$__ztr_colors[default]"
 		color_failed="$__ztr_colors[failed]"
 		color_passed="$__ztr_colors[passed]"
