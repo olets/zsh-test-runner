@@ -1,9 +1,10 @@
 # zsh-test-runner (ztr) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/olets/zsh-test-runner)
 
-> Straight-forward tests and coverage reports for zsh
+> Straight-forward tests and coverage reports for zsh and —under zsh's emulation— csh, ksh, and sh
 
 Features:
 
+-   test [zsh](https://www.zsh.org/) and, to a degree, [csh](https://en.wikipedia.org/wiki/C_shell), [ksh](http://kornshell.com/), and [sh](https://en.wikipedia.org/wiki/Bourne_shell) thanks to zsh's [`emulate`](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html) builtin
 -   short and gentle learning curve
 -   run one or more tests on the command line (see [`test`](#test---quiet---q-arg-name-notes))
 -   run one or more tests saved in a test suite file (see [Running test suites](#running-test-suites))
