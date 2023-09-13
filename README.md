@@ -455,7 +455,7 @@ Check the [Issues](https://github.com/olets/zsh-test-runner/issues) to see if yo
 
 Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request.
 
-To test `ztr` run `./tests/ztr.ztr`
+To test `ztr` run `zsh ./tests/ztr.ztr.zsh`
 
 ## License
 
