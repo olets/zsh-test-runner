@@ -17,6 +17,8 @@ __ztr_clear() { # Clear counts.
 }
 
 __ztr_no_color() {
+	# no debugger
+
 	local -a shell_vars
 	local -i found
 
@@ -29,12 +31,14 @@ __ztr_no_color() {
 
 __ztr_debugger() { # Print name of caller function.
 	emulate -LR zsh
+	# no debugger
 
 	(( ZTR_DEBUG )) && 'builtin' 'print' $funcstack[2]
 }
 
 __ztr_eval() {
 	emulate -LR $__ztr_emulation_mode_requested
+	# no debugger
 
 	__ztr_emulation_mode_used=$(emulate)
 
@@ -56,11 +60,11 @@ __ztr_init() { # Set variables.
 		'builtin' 'autoload' -U colors && colors
 	fi
 
-	# -g
+	# Global read/writable string variables
 	typeset -g ZTR_EMULATION_MODE && \
 		ZTR_EMULATION_MODE=${ZTR_EMULATION_MODE:-zsh}
 
-	# -gAr
+	# Global read-only array variables
 	typeset -gA +r __ztr_colors && \
 		__ztr_colors=(
 			[failed]=$fg[red]
@@ -69,7 +73,6 @@ __ztr_init() { # Set variables.
 			[default]=$reset_color
 		) && \
 		typeset -gAr __ztr_colors
-
 	typeset -gA +r ZTR_RESULTS && \
 		ZTR_RESULTS=(
 			[failed]=${ZTR_RESULTS[failed]:-0}
@@ -78,7 +81,7 @@ __ztr_init() { # Set variables.
 		) && \
 		typeset -gAr ZTR_RESULTS
 
-	# -gi
+	# Global integer variables
 	typeset -gi ZTR_DEBUG >/dev/null && \
 		ZTR_DEBUG=${ZTR_DEBUG:-0}
 	typeset -gi ZTR_QUIET >/dev/null && \
@@ -86,9 +89,16 @@ __ztr_init() { # Set variables.
 	typeset -gi ZTR_QUIET_EMULATION_MODE >/dev/null && \
 		ZTR_QUIET_EMULATION_MODE=${ZTR_QUIET_EMULATION_MODE:-0}
 
+	# Global read-only string variables
+	typeset -g +r __ztr_dir && \
+		__ztr_dir=${0:A:h} && \
+		typeset -gr __ztr_dir
 	typeset -g +r ZTR_PATH && \
 		ZTR_PATH=$__ztr_dir/ztr.zsh && \
 		typeset -gr ZTR_PATH
+	typeset -g +r ZTR_VERSION >/dev/null && \
+		ZTR_VERSION=1.2.0 && \
+		typeset -gr ZTR_VERSION
 }
 
 __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes unless "quiet".
