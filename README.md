@@ -204,7 +204,7 @@ FAIL [[ $(emulate) == zsh ]]
 PASS [[ $(emulate) == sh ]]
 ```
 
-If you always emulate a different shell, consider setting `ZSH_EMULATION_MODE` instead of always passing the `--emulate` option.
+If you always emulate a different shell, consider setting `ZTR_EMULATION_MODE` instead of always passing the `--emulate` option.
 
 #### `--quiet-emulate`
 
