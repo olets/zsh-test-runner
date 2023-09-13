@@ -1,18 +1,9 @@
-# Straight-forward tests and reports for zsh
+#!/usr/bin/env zsh
+
+# Straight-forward tests and coverage reports for zsh and —under zsh's emulation— csh, ksh, and sh
 # https://github.com/olets/zsh-test-runner
-# Copyright (c) 2021 Henry Bley-Vroman
-
-# Licensed under CC BY-NC-SA 4.0 # with a human rights condition from
-# Hippocratic License 2.1. # See the LICENSE file for details. Persons
-# interested in using or adapting this work for # commercial purposes should
-# contact the author.
-
-typeset -g __ztr_dir && \
-	__ztr_dir=${0:A:h}
-
-typeset -g +r ZTR_VERSION >/dev/null && \
-	ZTR_VERSION=1.2.0 && \
-	typeset -gr ZTR_VERSION
+# v1.2.0
+# Copyright (c) 2021-present Henry Bley-Vroman
 
 __ztr_clear() { # Clear counts.
 	emulate -LR zsh
