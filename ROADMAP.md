@@ -2,8 +2,6 @@
 
 ## Done, not yet released
 
-## Next
-
 ### Functions automatically run with every test
 
 -   [ ] `ZTR_SETUP_FN` is a user-definable function
@@ -11,7 +9,7 @@
 -   [ ] `ztr test` runs `ZTR_SETUP_FN` before `eval`ing the input
 -   [ ] `ztr test` runs `ZTR_TEARDOWN_FN` after `eval`ing the input
 
-## Next next
+## Next
 
 ### Functions manually run with every set of tests
 
@@ -21,7 +19,7 @@
 -   [ ] `ztr clean` runs the clean function
 -   [ ] `ztr reset` is a shorthand for `ztr clean && ztr clear`
 
-## Next next next
+## Next next
 
 ### Queue
 

@@ -98,6 +98,36 @@ __ztr_init() { # Set variables.
 		typeset -gr ZTR_VERSION
 }
 
+__ztr_setup() {
+	emulate -LR zsh
+	__ztr_debugger
+
+	local -a shell_funcs
+	local -i found
+
+	shell_funcs=( ${(k)functions} )
+	found=$(( $shell_funcs[(Ie)ZTR_SETUP_FN] ))
+
+	if (( found )); then
+		ZTR_SETUP_FN $ZTR_SETUP_ARGS
+	fi
+}
+
+__ztr_teardown() {
+	emulate -LR zsh
+	__ztr_debugger
+
+	local -a shell_funcs
+	local -i found
+
+	shell_funcs=( ${(k)functions} )
+	found=$(( $shell_funcs[(Ie)ZTR_TEARDOWN_FN] ))
+
+	if (( found )); then
+		ZTR_TEARDOWN_FN $ZTR_TEARDOWN_ARGS
+	fi
+}
+
 __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes unless "quiet".
 	emulate -LR zsh
 	__ztr_debugger
@@ -115,9 +145,13 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 		color_passed="$__ztr_colors[passed]"
 	fi
 
+	__ztr_setup
+
 	__ztr_eval $arg &>/dev/null
 
 	exit_code=$?
+
+	__ztr_teardown
 
 	if (( exit_code )); then
 		result="${color_failed}FAIL$color_default"
@@ -217,7 +251,7 @@ ztr() {
 	__ztr_debugger
 
 	typeset -a args
-	typeset -i clear run_test skip_test summary
+	typeset -i clear clear_queue queue run_queue run_test skip_test summary
 	typeset -g __ztr_emulation_mode_requested
 	typeset -g __ztr_emulation_mode_used
 	typeset -gi __ztr_quiet
