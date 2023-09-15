@@ -5,6 +5,36 @@
 # v1.2.0
 # Copyright (c) 2021-present Henry Bley-Vroman
 
+__ztr_bootstrap() {
+	emulate -LR zsh
+	__ztr_debugger
+
+	local -a shell_funcs
+	local -i found
+
+	shell_funcs=( ${(k)functions} )
+	found=$(( $shell_funcs[(Ie)ZTR_BOOTSTRAP_FN] ))
+
+	if (( found )); then
+		ZTR_BOOTSTRAP_FN
+	fi
+}
+
+__ztr_clean() {
+	emulate -LR zsh
+	__ztr_debugger
+
+	local -a shell_funcs
+	local -i found
+
+	shell_funcs=( ${(k)functions} )
+	found=$(( $shell_funcs[(Ie)ZTR_CLEAN_FN] ))
+
+	if (( found )); then
+		ZTR_CLEAN_FN
+	fi
+}
+
 __ztr_clear_queue() {
 	typeset -ga +r __ztr_queue
 	__ztr_queue=
@@ -133,6 +163,8 @@ __ztr_run_queue() {
 
 	quiet_saved=$ZTR_QUIET
 
+	__ztr_bootstrap
+
 	ZTR_QUIET=$__ztr_quiet
 
 	for q in $__ztr_queue; do
@@ -140,6 +172,8 @@ __ztr_run_queue() {
 	done
 
 	ZTR_QUIET=quiet_saved
+
+	__ztr_clean
 
 	__ztr_clear_queue
 }

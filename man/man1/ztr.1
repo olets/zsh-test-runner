@@ -52,6 +52,10 @@ Run all queued tests, and then clear the queue.
 
 \fI\-\-quiet runs all tests with the \fI\-\-quiet flag.
 
+If \fIZTR_BOOTSTRAP_FN\fR is defined, it is run before the first queued test.
+
+If \fIZTR_CLEAN_FN\fR is defined, it is run after the last queued test.
+
 .IP \(bu
 \fBskip \fI<arg>\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR [\fI<notes>\fR]]\fR
 
