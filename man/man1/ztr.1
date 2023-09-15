@@ -6,6 +6,12 @@ ztr \- zsh test runner
 
 \fBztr clear\fR
 
+\fBztr clear-queue\fR
+
+\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+
+\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)]
+
 \fBztr skip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 \fBztr summary\fR
@@ -25,7 +31,26 @@ ztr \- zsh test runner
 .IP \(bu
 \fBclear\fR
 
-Clear results.
+Clear summary.
+
+.IP \(bu
+\fBztr clear-queue\fR
+
+Clear the queue.
+
+.IP \(bu
+\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+
+Without arguments: print the queued tests.
+
+With arguments: as `ztr test` but the test is queued rather than run.
+
+.IP \(bu
+\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)]
+
+Run all queued tests, and then clear the queue.
+
+\fI\-\-quiet runs all tests with the \fI\-\-quiet flag.
 
 .IP \(bu
 \fBskip \fI<arg>\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR [\fI<notes>\fR]]\fR
@@ -47,7 +72,7 @@ Test \fI<arg>\fR. Pretty-print result and notes unless "quiet".
 
 If your arg will error when passed to `eval`, quote it. If your arg has spaces, quote it.
 
-Optionally change zsh's emulation mode.
+Optionally change zsh\'s emulation mode.
 
 Optionally do not warn when a non-zsh shell is emulated.
 

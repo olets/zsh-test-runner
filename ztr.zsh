@@ -16,6 +16,12 @@ __ztr_clear() { # Clear counts.
 	typeset -gAr ZTR_RESULTS
 }
 
+__ztr_clear_queue() {
+	typeset -ga +r __ztr_queue
+	__ztr_queue=
+	typeset -gar __ztr_queue
+}
+
 __ztr_no_color() {
 	# no debugger
 
@@ -65,6 +71,9 @@ __ztr_init() { # Set variables.
 		ZTR_EMULATION_MODE=${ZTR_EMULATION_MODE:-zsh}
 
 	# Global read-only array variables
+	typeset -gar __ztr_queue
+
+	# Global read-only associative array variables
 	typeset -gA +r __ztr_colors && \
 		__ztr_colors=(
 			[failed]=$fg[red]
@@ -96,6 +105,43 @@ __ztr_init() { # Set variables.
 	typeset -g +r ZTR_VERSION >/dev/null && \
 		ZTR_VERSION=1.2.0 && \
 		typeset -gr ZTR_VERSION
+}
+
+__ztr_queue() {
+	emulate -LR zsh
+	__ztr_debugger
+
+	local args
+	args=$@
+
+	if [[ -z $args ]]; then
+		for q in $__ztr_queue; do
+			'builtin' 'print' "ztr test $q"
+		done
+	fi
+
+	typeset -ga +r __ztr_queue
+	__ztr_queue+=( $args )
+	typeset -gar __ztr_queue
+}
+
+__ztr_run_queue() {
+	emulate -LR zsh
+	__ztr_debugger
+
+	local quiet_saved
+
+	quiet_saved=$ZTR_QUIET
+
+	ZTR_QUIET=$__ztr_quiet
+
+	for q in $__ztr_queue; do
+		__ztr_eval ztr test $q
+	done
+
+	ZTR_QUIET=quiet_saved
+
+	__ztr_clear_queue
 }
 
 __ztr_setup() {
@@ -289,7 +335,19 @@ ztr() {
 				clear=1
 				shift
 				;;
+			"clear-queue")
+				clear_queue=1
+				shift
+				;;
 			# "help" see "--help"
+			"queue")
+				queue=1
+				shift
+				;;
+			"run-queue")
+				run_queue=1
+				shift
+				;;
 			"skip")
 				skip_test=1
 				shift
@@ -312,6 +370,21 @@ ztr() {
 
 	if (( clear )); then
 		__ztr_clear
+		return
+	fi
+
+	if (( clear_queue )); then
+		__ztr_clear_queue
+		return
+	fi
+
+	if (( queue )); then
+		__ztr_queue $args
+		return
+	fi
+
+	if (( run_queue )); then
+		__ztr_run_queue
 		return
 	fi
 
