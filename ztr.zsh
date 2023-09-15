@@ -113,6 +113,68 @@ __ztr_setup() {
 	fi
 }
 
+__ztr_skip() { # Skip <arg>.
+	emulate -LR zsh
+	__ztr_debugger
+
+	local arg color_default color_skipped name notes
+
+	arg=$1
+	name=$2
+	notes=$3
+
+	if ! __ztr_no_color; then
+		color_default="$__ztr_colors[default]"
+		color_skipped="$__ztr_colors[skipped]"
+	fi
+
+	typeset -gA +r ZTR_RESULTS
+	(( ZTR_RESULTS[skipped]++ ))
+	typeset -gAr ZTR_RESULTS
+
+	if (( ! __ztr_quiet )); then
+		'builtin' 'echo' "${color_skipped}SKIP$color_default ${name:-$arg}${notes:+\\n    $notes}"
+	fi
+}
+
+__ztr_summary() { # Pretty-print summary of counts.
+	emulate -LR zsh
+	__ztr_debugger
+
+	local color_default color_failed color_passed color_skipped rate_failed rate_passed
+	local -i total
+
+	if ! __ztr_no_color; then
+		color_default="$__ztr_colors[default]"
+		color_failed="$__ztr_colors[failed]"
+		color_passed="$__ztr_colors[passed]"
+		color_skipped="$__ztr_colors[skipped]"
+	fi
+
+	total=$(( ZTR_RESULTS[failed] + ZTR_RESULTS[passed] + ZTR_RESULTS[skipped] ))
+
+	if (( total )); then
+		(( ZTR_RESULTS[failed] )) && (( rate_failed=ZTR_RESULTS[failed]*100/total ))
+		(( ZTR_RESULTS[passed] )) && (( rate_passed=ZTR_RESULTS[passed]*100/total ))
+	fi
+
+	if (( total == 1 )); then
+		'builtin' 'print' $total test total
+	else
+		'builtin' 'print' $total tests total
+	fi
+
+	'builtin' 'print' $color_failed$ZTR_RESULTS[failed] ${rate_failed:+"(${rate_failed}%)"} failed$color_default
+
+	if (( ZTR_RESULTS[skipped] == 1 )); then
+		'builtin' 'print' $color_skipped$ZTR_RESULTS[skipped] was skipped$color_default
+	else
+		'builtin' 'print' $color_skipped$ZTR_RESULTS[skipped] were skipped$color_default
+	fi
+
+	'builtin' 'print' $color_passed$ZTR_RESULTS[passed] ${rate_passed:+"(${rate_passed}%)"} passed$color_default
+}
+
 __ztr_teardown() {
 	emulate -LR zsh
 	__ztr_debugger
@@ -177,68 +239,6 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	return $exit_code
 }
 
-__ztr_skip() { # Skip <arg>.
-	emulate -LR zsh
-	__ztr_debugger
-
-	local arg color_default color_skipped name notes
-
-	arg=$1
-	name=$2
-	notes=$3
-
-	if ! __ztr_no_color; then
-		color_default="$__ztr_colors[default]"
-		color_skipped="$__ztr_colors[skipped]"
-	fi
-
-	typeset -gA +r ZTR_RESULTS
-	(( ZTR_RESULTS[skipped]++ ))
-	typeset -gAr ZTR_RESULTS
-
-	if (( ! __ztr_quiet )); then
-		'builtin' 'echo' "${color_skipped}SKIP$color_default ${name:-$arg}${notes:+\\n    $notes}"
-	fi
-}
-
-__ztr_summary() { # Pretty-print summary of counts.
-	emulate -LR zsh
-	__ztr_debugger
-
-	local color_default color_failed color_passed color_skipped rate_failed rate_passed
-	local -i total
-
-	if ! __ztr_no_color; then
-		color_default="$__ztr_colors[default]"
-		color_failed="$__ztr_colors[failed]"
-		color_passed="$__ztr_colors[passed]"
-		color_skipped="$__ztr_colors[skipped]"
-	fi
-
-	total=$(( ZTR_RESULTS[failed] + ZTR_RESULTS[passed] + ZTR_RESULTS[skipped] ))
-
-	if (( total )); then
-		(( ZTR_RESULTS[failed] )) && (( rate_failed=ZTR_RESULTS[failed]*100/total ))
-		(( ZTR_RESULTS[passed] )) && (( rate_passed=ZTR_RESULTS[passed]*100/total ))
-	fi
-
-	if (( total == 1 )); then
-		'builtin' 'print' $total test total
-	else
-		'builtin' 'print' $total tests total
-	fi
-
-	'builtin' 'print' $color_failed$ZTR_RESULTS[failed] ${rate_failed:+"(${rate_failed}%)"} failed$color_default
-
-	if (( ZTR_RESULTS[skipped] == 1 )); then
-		'builtin' 'print' $color_skipped$ZTR_RESULTS[skipped] was skipped$color_default
-	else
-		'builtin' 'print' $color_skipped$ZTR_RESULTS[skipped] were skipped$color_default
-	fi
-
-	'builtin' 'print' $color_passed$ZTR_RESULTS[passed] ${rate_passed:+"(${rate_passed}%)"} passed$color_default
-}
-
 __ztr_version() { # Print the command name and current version.
 	emulate -LR zsh
 	__ztr_debugger
@@ -292,16 +292,16 @@ ztr() {
 				shift
 				;;
 			# "help" see "--help"
-			"test")
-				run_test=1
-				shift
-				;;
 			"skip")
 				skip_test=1
 				shift
 				;;
 			"summary")
 				summary=1
+				shift
+				;;
+			"test")
+				run_test=1
 				shift
 				;;
 			# "version" see "--version"
