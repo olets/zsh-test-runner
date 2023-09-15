@@ -90,9 +90,6 @@ __ztr_init() { # Set variables.
 		ZTR_QUIET_EMULATION_MODE=${ZTR_QUIET_EMULATION_MODE:-0}
 
 	# Global read-only string variables
-	typeset -g +r __ztr_dir && \
-		__ztr_dir=${0:A:h} && \
-		typeset -gr __ztr_dir
 	typeset -g +r ZTR_PATH && \
 		ZTR_PATH=$__ztr_dir/ztr.zsh && \
 		typeset -gr ZTR_PATH
@@ -301,5 +298,9 @@ ztr() {
 		return
 	fi
 }
+
+typeset -g +r __ztr_dir && \
+	__ztr_dir=${0:A:h} && \
+	typeset -gr __ztr_dir
 
 __ztr_init
