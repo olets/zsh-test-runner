@@ -47,14 +47,14 @@ main() {
 		}
 
 		# clear
-		ztr clear
+		ztr clear-summary
 		ztr --quiet test false
 		ztr --quiet test true
 		ztr --quiet skip
 		typeset -i clear_total
 		clear_total=$(( ZTR_RESULTS[failed] && ZTR_RESULTS[passed] && ZTR_RESULTS[skipped] ))
-		ztr clear
-		should_pass '(( clear_total )) && [[ $ZTR_RESULTS[failed] == 0 && $ZTR_RESULTS[passed] == 0 && $ZTR_RESULTS[skipped] == 0 ]]' "clear zeros the fail, pass, and skip counts"
+		ztr clear-summary
+		should_pass '(( clear_total )) && [[ $ZTR_RESULTS[failed] == 0 && $ZTR_RESULTS[passed] == 0 && $ZTR_RESULTS[skipped] == 0 ]]' "clear-summary zeros the fail, pass, and skip counts"
 		unset clear_total
 
 		# basic
