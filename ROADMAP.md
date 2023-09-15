@@ -14,8 +14,5 @@
 -   [x] `ztr queue <cmd> [<notes>]` queues a command for later testing
 -   [x] `ztr run-queue [(--quiet | -q)]` runs all queued commands
     -   [x] `(--quiet | -q)` applies `--quiet` to all the `ztr test`s run in the queue
-
-### Functions manually run with every set of tests
-
--   [x] `ZTR_BOOTSTRAP_FN` is a user-definable function
--   [x] `ZTR_CLEAN_FN` is a user-definable function
+    -   [x] `ZTR_BOOTSTRAP_FN` is a user-definable function which runs before the first queued test
+    -   [x] `ZTR_CLEAN_FN` is a user-definable function which runs after the last queued test

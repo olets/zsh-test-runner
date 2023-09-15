@@ -20,7 +20,7 @@ There's no "describe", "expect", etc. Downside is the tests don't read like a st
 
 ## Documentation
 
-📖 See the guide at https://zsh-test-runner.olets.dev/
+📖 See the guide at https://next.zsh-test-runner.olets.dev/
 
 ## Changelog
 
