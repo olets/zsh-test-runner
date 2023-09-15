@@ -252,10 +252,8 @@ ztr() {
 
 	typeset -a args
 	typeset -i clear clear_queue queue run_queue run_test skip_test summary
-	typeset -g __ztr_emulation_mode_requested
-	typeset -g __ztr_emulation_mode_used
-	typeset -gi __ztr_quiet
-	typeset -gi __ztr_quiet_emulation_mode
+	typeset -g __ztr_emulation_mode_requested __ztr_emulation_mode_used
+	typeset -gi __ztr_quiet __ztr_quiet_emulation_mode
 
 	__ztr_emulation_mode_requested=$ZTR_EMULATION_MODE
 	__ztr_quiet=$ZTR_QUIET
