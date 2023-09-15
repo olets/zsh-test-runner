@@ -4,27 +4,18 @@
 
 ### Functions automatically run with every test
 
--   [ ] `ZTR_SETUP_FN` is a user-definable function
--   [ ] `ZTR_TEARDOWN_FN` is a user-definable function
--   [ ] `ztr test` runs `ZTR_SETUP_FN` before `eval`ing the input
--   [ ] `ztr test` runs `ZTR_TEARDOWN_FN` after `eval`ing the input
-
-## Next
-
-### Functions manually run with every set of tests
-
--   [ ] `ZTR_BOOTSTRAP_FN` is a user-definable function
--   [ ] `ztr bootstrap` runs the bootstrap function
--   [ ] `ZTR_CLEAN_FN` is a user-definable function
--   [ ] `ztr clean` runs the clean function
--   [ ] `ztr reset` is a shorthand for `ztr clean && ztr clear`
-
-## Next next
+-   [x] `ZTR_SETUP_FN` is a user-definable function
+-   [x] `ZTR_TEARDOWN_FN` is a user-definable function
+-   [x] `ztr test` runs `ZTR_SETUP_FN` before `eval`ing the input
+-   [x] `ztr test` runs `ZTR_TEARDOWN_FN` after `eval`ing the input
 
 ### Queue
 
--   [ ] `ztr queue <cmd> [<notes>]` queues a command for later testing
--   [ ] `ztr run-queue [(--quiet | -q)] [--summary]` runs all queued commands
-    -   [ ] `(--quiet | -q)` behaves as in `ztr test`
-    -   [ ] `--summary` runs `ztr summary` after the last queued command
-    -   [ ] regardless of whether or not `--summary` is passed, exit code is `$ZTR_COUNT_FAIL`
+-   [x] `ztr queue <cmd> [<notes>]` queues a command for later testing
+-   [x] `ztr run-queue [(--quiet | -q)]` runs all queued commands
+    -   [x] `(--quiet | -q)` applies `--quiet` to all the `ztr test`s run in the queue
+
+### Functions manually run with every set of tests
+
+-   [x] `ZTR_BOOTSTRAP_FN` is a user-definable function
+-   [x] `ZTR_CLEAN_FN` is a user-definable function
