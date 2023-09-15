@@ -5,7 +5,13 @@
 # v1.2.0
 # Copyright (c) 2021-present Henry Bley-Vroman
 
-__ztr_clear() { # Clear counts.
+__ztr_clear_queue() {
+	typeset -ga +r __ztr_queue
+	__ztr_queue=
+	typeset -gar __ztr_queue
+}
+
+__ztr_clear_summary() {
 	emulate -LR zsh
 	__ztr_debugger
 
@@ -14,12 +20,6 @@ __ztr_clear() { # Clear counts.
 	ZTR_RESULTS[passed]=0
 	ZTR_RESULTS[skipped]=0
 	typeset -gAr ZTR_RESULTS
-}
-
-__ztr_clear_queue() {
-	typeset -ga +r __ztr_queue
-	__ztr_queue=
-	typeset -gar __ztr_queue
 }
 
 __ztr_no_color() {
@@ -297,7 +297,7 @@ ztr() {
 	__ztr_debugger
 
 	typeset -a args
-	typeset -i clear clear_queue queue run_queue run_test skip_test summary
+	typeset -i clear_queue clear_summary queue run_queue run_test skip_test summary
 	typeset -g __ztr_emulation_mode_requested __ztr_emulation_mode_used
 	typeset -gi __ztr_quiet __ztr_quiet_emulation_mode
 
@@ -331,12 +331,12 @@ ztr() {
 				__ztr_version
 				return
 				;;
-			"clear")
-				clear=1
-				shift
-				;;
 			"clear-queue")
 				clear_queue=1
+				shift
+				;;
+			"clear-summary")
+				clear_summary=1
 				shift
 				;;
 			# "help" see "--help"
@@ -368,13 +368,13 @@ ztr() {
 		esac
 	done
 
-	if (( clear )); then
-		__ztr_clear
+	if (( clear_queue )); then
+		__ztr_clear_queue
 		return
 	fi
 
-	if (( clear_queue )); then
-		__ztr_clear_queue
+	if (( clear_summary )); then
+		__ztr_clear_summary
 		return
 	fi
 
