@@ -5,14 +5,18 @@
 **What it features**: everything you need for testing zsh scripts.
 
 -   test [zsh](https://www.zsh.org/) and, to a degree, [csh](https://en.wikipedia.org/wiki/C_shell), [ksh](http://kornshell.com/), and [sh](https://en.wikipedia.org/wiki/Bourne_shell) thanks to zsh's [`emulate`](https://zsh.sourceforge.io/Doc/Release/Shell-Builtin-Commands.html) builtin
--   short and gentle learning curve
+    -   optionally give tests descriptive names and additional notes
 -   run one or more tests on the command line
 -   run one or more tests saved in a test suite file
+-   optionally run a setup function before each test
+-   optionally run a teardown function after each test
 -   skip tests
--   optionally give tests descriptive names
--   optionally provide notes to tests (handy for listing dependencies in the logged output)
+-   queue tests to run in a batch
+    -   optionally run a bootstrap function before each batch
+    -   optionally run a clean function after each batch
 -   access cumulative failure, pass, and skip counts as shell variables
--   print coverage summaries with total count, failure count, pass count, skip count, failure rate, and pass rate
+-   print coverage summaries with total count, failure count and rate, pass count and rate, and skip count
+-   short and gentle learning curve
 
 **What it does not feature**: its own human language-like declarative test syntax.
 
