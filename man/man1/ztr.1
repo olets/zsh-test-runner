@@ -55,6 +55,10 @@ Optionally pass a name as a second parameter.
 
 Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
 
+If \fIZTR_SETUP_FN\fR is defined, \fIZTR_SETUP_FN $ZTR_SETUP_ARGS\fR runs before <fIarg\fR> is evaluated.
+
+If \fIZTR_TEARDOWN_FN\fR is defined, \fIZTR_TEARDOWN_FN $ZTR_TEARDOWN_ARGS\fR runs before <fIarg\fR> is evaluated.
+
 .IP \(bu
 \fBhelp\fR or \fB\-\-help\fR or \fB\-h\fR
 
