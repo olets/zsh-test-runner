@@ -349,7 +349,7 @@ ztr() {
 	emulate -LR zsh
 	__ztr_debugger
 
-	typeset -a args
+	typeset -a args flags
 	typeset -i clear_queue clear_summary queue run_queue run_test skip_test summary
 	typeset -g __ztr_emulation_mode_requested __ztr_emulation_mode_used
 	typeset -gi __ztr_queue_skip __ztr_quiet __ztr_quiet_emulation_mode
@@ -362,10 +362,12 @@ ztr() {
 		case $1 in
 			"--emulate")
 				__ztr_emulation_mode_requested=$2
+				flags+=( "--emulate $__ztr_emulation_mode_requested" )
 				shift 2
 				;;
 			"--quiet-emulate")
 				__ztr_quiet_emulation_mode=1
+				flags+=( "--quiet-emulate" )
 				shift
 				;;
 			"--help"|\
@@ -380,6 +382,7 @@ ztr() {
 				;;
 			"--quiet"|"-q")
 				__ztr_quiet=1
+				flags+=( "--quiet" )
 				shift
 				;;
 			"--version"|\
@@ -438,7 +441,7 @@ ztr() {
 	fi
 
 	if (( queue )); then
-		__ztr_queue $args
+		__ztr_queue $flags $args
 		__ztr_reset
 		return
 	fi
