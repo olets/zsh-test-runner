@@ -8,7 +8,7 @@ ztr \- zsh test runner
 
 \fBztr clear-summary\fR
 
-\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] [\fI\-\-skip\fR] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
 
 \fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]
 
@@ -39,11 +39,13 @@ Clear the queue.
 Clear the summary.
 
 .IP \(bu
-\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] [\fI\-\-skip\fR] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
 
 Without arguments: print the queued tests.
 
 With arguments: as `ztr test` but the test is queued rather than run.
+
+\fI\-\-skip\fR queues up a \fBskip\fR command rather than a \fBtest\fR command.
 
 .IP \(bu
 \fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]

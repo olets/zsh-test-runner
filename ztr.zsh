@@ -141,18 +141,31 @@ __ztr_queue() {
 	emulate -LR zsh
 	__ztr_debugger
 
-	local args
-	args=$@
+	local args cmd
+
+	args=$*
+
+	cmd=test
+	if (( __ztr_queue_skip )); then
+		cmd=skip
+	fi
 
 	if [[ -z $args ]]; then
 		for q in $__ztr_queue; do
-			'builtin' 'print' "ztr test $q"
+			'builtin' 'print' "$q"
 		done
+
+		return
 	fi
 
 	typeset -ga +r __ztr_queue
-	__ztr_queue+=( $args )
+	__ztr_queue+=( "ztr $cmd $args" )
 	typeset -gar __ztr_queue
+}
+
+__ztr_reset() {
+	unset __ztr_emulation_mode_requested __ztr_emulation_mode_used \
+		__ztr_queue_skip __ztr_quiet __ztr_quiet_emulation_mode
 }
 
 __ztr_run_queue() {
@@ -339,7 +352,7 @@ ztr() {
 	typeset -a args
 	typeset -i clear_queue clear_summary queue run_queue run_test skip_test summary
 	typeset -g __ztr_emulation_mode_requested __ztr_emulation_mode_used
-	typeset -gi __ztr_quiet __ztr_quiet_emulation_mode
+	typeset -gi __ztr_queue_skip __ztr_quiet __ztr_quiet_emulation_mode
 
 	__ztr_emulation_mode_requested=$ZTR_EMULATION_MODE
 	__ztr_quiet=$ZTR_QUIET
@@ -360,6 +373,10 @@ ztr() {
 			"help")
 				__ztr_help
 				return
+				;;
+			"--skip")
+				__ztr_queue_skip=1
+				shift
 				;;
 			"--quiet"|"-q")
 				__ztr_quiet=1
@@ -410,36 +427,43 @@ ztr() {
 
 	if (( clear_queue )); then
 		__ztr_clear_queue
+		__ztr_reset
 		return
 	fi
 
 	if (( clear_summary )); then
 		__ztr_clear_summary
+		__ztr_reset
 		return
 	fi
 
 	if (( queue )); then
 		__ztr_queue $args
+		__ztr_reset
 		return
 	fi
 
 	if (( run_queue )); then
-		__ztr_run_queue
+		__ztr_run_queue $args
+		__ztr_reset
 		return
 	fi
 
 	if (( run_test )); then
 		__ztr_test $args
+		__ztr_reset
 		return
 	fi
 
 	if (( skip_test )); then
 		__ztr_skip $args
+		__ztr_reset
 		return 0
 	fi
 
 	if (( summary )); then
 		__ztr_summary
+		__ztr_reset
 		return
 	fi
 }
