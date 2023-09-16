@@ -2,13 +2,7 @@
 # ------------------------------------------------------------------------------
 # Completion script for ztr (https://github.com/olets/zsh-test-runner).
 #
-# Copyright (c) 2021 Henry Bley-Vroman - https://github.com/olets
-# All rights reserved.
-#
-# Licensed under CC BY-NC-SA 4.0 with a human rights condition from
-# Hippocratic License 2.1. See the LICENSE file for the full text. Persons
-# interested in using or adapting this work for commercial purposes should
-# contact the author.
+# Copyright (c) 2021-present Henry Bley-Vroman - https://github.com/olets
 # ------------------------------------------------------------------------------
 
 
@@ -26,7 +20,10 @@ case $state in
 	cmds)
 		_values "ztr command" \
 			"help[Show the manpage]" \
-			"clear[Clear counts]" \
+			"clear-queue[Clear queue]" \
+			"clear-summary[Clear summary]" \
+			"queue[With arguments: enqueue a test; without arguments: print queue]" \
+			"run-queue[Run queued tests and clear the queue]" \
 			"skip[Skip a test]" \
 			"summary[Pretty-print summary of counts]" \
 			"test[Run a test]" \
