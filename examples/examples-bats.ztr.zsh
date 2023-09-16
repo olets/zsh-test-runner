@@ -169,8 +169,8 @@ main() {
 				ztr queue --skip "' '" "'file not contains'"
 
 				# symlink
-				ztr queue "'[ -h \${_ztr_examples_cur_dir}/index-link ] && [[ \$(readlink \${_ztr_examples_cur_dir}/index-link) == \"./examples/index.ztr.zsh\" ]]'" "'symlink to'"
-				ztr queue "'! [ -h \${_ztr_examples_cur_dir}/index-link ] || ! [ readlink \${_ztr_examples_cur_dir}/index-link == \"./examples/index.ztr.zsh\" ]'" "'not symlink to'"
+				ztr queue "'[ -h \${_ztr_examples_cur_dir}/index-link ] && [[ \$(readlink \${_ztr_examples_cur_dir}/index-link) == \"index.ztr.zsh\" ]]'" "'symlink to'"
+				ztr queue "'! [ -h \${_ztr_examples_cur_dir}/index-link ] || ! [ readlink \${_ztr_examples_cur_dir}/index-link == \"index.ztr.zsh\" ]'" "'not symlink to'"
 
 			ztr run-queue '---file---'
 		}
