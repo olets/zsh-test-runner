@@ -160,15 +160,21 @@ __ztr_run_queue() {
 	__ztr_debugger
 
 	local quiet_saved
+	local name
 
 	quiet_saved=$ZTR_QUIET
+	name=$1
 
 	__ztr_bootstrap
 
 	ZTR_QUIET=$__ztr_quiet
 
+	if [[ -n $name ]]; then
+		'builtin' 'print' "$name"
+	fi
+
 	for q in $__ztr_queue; do
-		__ztr_eval ztr test $q
+		print "${name:+  }$(__ztr_eval $q)"
 	done
 
 	ZTR_QUIET=quiet_saved

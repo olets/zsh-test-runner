@@ -10,7 +10,7 @@ ztr \- zsh test runner
 
 \fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
 
-\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)]
+\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]
 
 \fBztr skip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<name>\fR [\fI<notes>\fR]]\fR
 
@@ -46,11 +46,13 @@ Without arguments: print the queued tests.
 With arguments: as `ztr test` but the test is queued rather than run.
 
 .IP \(bu
-\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)]
+\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]
 
 Run all queued tests, and then clear the queue.
 
 \fI\-\-quiet runs all tests with the \fI\-\-quiet flag.
+
+\fI<name>\fR print a name above the batch results. Results are indented.
 
 If \fIZTR_BOOTSTRAP_FN\fR is defined, it is run before the first queued test.
 
