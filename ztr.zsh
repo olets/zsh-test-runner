@@ -143,14 +143,14 @@ __ztr_queue() {
 
 	local args cmd
 
-	args=$*
+	args=$@
 
 	cmd=test
 	if (( __ztr_queue_skip )); then
 		cmd=skip
 	fi
 
-	if [[ -z $args ]]; then
+	if (( ! ${#args} )); then
 		for q in $__ztr_queue; do
 			'builtin' 'print' "$q"
 		done
@@ -349,8 +349,8 @@ ztr() {
 	emulate -LR zsh
 	__ztr_debugger
 
-	typeset -a args flags
-	typeset -i clear_queue clear_summary queue run_queue run_test skip_test summary
+	local -a args exit_code flags
+	local -i clear_queue clear_summary queue run_queue run_test skip_test summary
 	typeset -g __ztr_emulation_mode_requested __ztr_emulation_mode_used
 	typeset -gi __ztr_queue_skip __ztr_quiet __ztr_quiet_emulation_mode
 
@@ -441,7 +441,12 @@ ztr() {
 	fi
 
 	if (( queue )); then
-		__ztr_queue $flags $args
+		if (( ${#args} || ${#flags} )); then
+			__ztr_queue $flags ${args:+${(qq)args}}
+		else
+			__ztr_queue
+		fi
+
 		__ztr_reset
 		return
 	fi
