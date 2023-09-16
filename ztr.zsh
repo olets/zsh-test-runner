@@ -73,7 +73,7 @@ __ztr_debugger() { # Print name of caller function.
 }
 
 __ztr_eval() {
-	emulate -LR $__ztr_emulation_mode_requested
+	emulate -LR ${__ztr_emulation_mode_requested:-$ZTR_EMULATION_MODE}
 	# no debugger
 
 	__ztr_emulation_mode_used=$(emulate)
