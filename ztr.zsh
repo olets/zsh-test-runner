@@ -454,8 +454,12 @@ ztr() {
 
 	if (( run_test )); then
 		__ztr_test $args
+
+		exit_code=$?
+
 		__ztr_reset
-		return
+
+		return $exit_code
 	fi
 
 	if (( skip_test )); then
