@@ -187,7 +187,7 @@ __ztr_run_queue() {
 	fi
 
 	for q in $__ztr_queue; do
-		print "${name:+  }$(__ztr_eval $q)"
+		__ztr_eval $q
 	done
 
 	ZTR_QUIET=quiet_saved
