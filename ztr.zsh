@@ -183,7 +183,7 @@ __ztr_run_queue() {
 	ZTR_QUIET=$__ztr_quiet
 
 	if [[ -n $name ]]; then
-		'builtin' 'print' "$name"
+		'builtin' 'printf' "%s\n" "$name"
 	fi
 
 	for q in $__ztr_queue; do
@@ -232,7 +232,7 @@ __ztr_skip() { # Skip <arg>.
 	typeset -gAr ZTR_RESULTS
 
 	if (( ! __ztr_quiet )); then
-		'builtin' 'echo' "${color_skipped}SKIP$color_default ${name:-$arg}${notes:+\\n    $notes}"
+		'builtin' 'echo' - "${color_skipped}SKIP$color_default ${name:-$arg}${notes:+\\n    $notes}"
 	fi
 }
 
