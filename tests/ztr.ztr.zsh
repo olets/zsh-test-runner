@@ -85,8 +85,8 @@ main() {
 		should_pass "(( ZTR_RESULTS[skipped] ))" "skip count increments"
 
 		# emulation
-		should_fail "ztr test '[ "a" == "a" ]'" "uses zsh by default"
-		should_pass "ztr test --quiet-emulate --emulate sh '[ "a" == "a" ]'" "can emulate sh"
+		should_pass "ztr test '[[ \$(emulate) == zsh ]]'" "uses zsh by default"
+		should_pass "ztr test --quiet-emulate --emulate sh '[[ \$(emulate) == sh ]]'" "can emulate sh"
 
 		# ----------------------------------------------------------------
 		# results. all test should be above this point
