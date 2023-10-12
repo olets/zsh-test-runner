@@ -1,8 +1,12 @@
 #!/usr/bin/env zsh
 
+# zsh-test-runner implementations of example tests from ZUnit's documentation.
+
 main() {
 	{
 		_tests_syntax() {
+			# Ref https://zunit.xyz/docs/writing-tests/test-syntax/
+
 			local testing output
 			local -a lines
 			local -i state
@@ -22,6 +26,8 @@ main() {
 		}
 
 		_tests_assertions() {
+			# Ref https://zunit.xyz/docs/writing-tests/assertions/
+
 			local -a lines
 			local -A hash
 

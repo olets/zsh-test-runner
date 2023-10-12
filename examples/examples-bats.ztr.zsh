@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# zsh-test-runner implementations of example tests from core Bats plugins' documentation.
+
 main() {
 	{
 		_tests_assert() {
