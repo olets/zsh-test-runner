@@ -26,13 +26,17 @@ There's no "describe", "expect", etc. Downside is the tests don't read like a st
 
 📖 See the guide at https://next.zsh-test-runner.olets.dev/
 
+## Examples
+
+See the [examples' README](examples/README.md).
+
 ## Changelog
 
-See the [CHANGELOG](CHANGELOG.md) file.
+See [CHANGELOG](CHANGELOG.md).
 
 ## Roadmap
 
-See the [ROADMAP](ROADMAP.md) file.
+See [ROADMAP](ROADMAP.md).
 
 ## Contributing
 
