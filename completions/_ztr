@@ -31,15 +31,28 @@ case $state in
 		;;
 	args)
 		case $line[1] in
-			help)
+			run-queue)
+				# [(--quiet | -q)]
+				_arguments \
+					"(--quiet)--quiet[Silence output]" \
+					"(-q)-q[Silence output]"
 				ret=0
 				;;
 			skip)
-				_arguments "(--quiet)--quiet[Silence output]"
+				# [(--quiet | -q)] <arg> [<name> [<notes>]]
+				_arguments \
+					"(--quiet)--quiet[Silence output]" \
+					"(-q)-q[Silence output]"
 				ret=0
 				;;
+			queue|\
 			test)
-				_arguments "(--quiet)--quiet[Silence output]"
+				# [[(--quiet | -q)] [--emulate <shell>] [--quiet-emulate] <arg> [<name> [<notes>]]]
+				_arguments \
+					"(--emulate)--emulate[Emulate <shell>]" \
+					"(--quiet)--quiet[Silence output]" \
+					"(-q)-q[Silence output]" \
+					"(--quiet-emulate)--quiet-emulate[Do not warn when a non-zsh shell is emulated.]"
 				ret=0
 				;;
 		esac
