@@ -8,18 +8,15 @@
 
 local curcontext="$curcontext" state line ret=1
 
-_arguments -C -A "-v" -A "--version" \
-	-A "-h" -A "--help" \
-	'(- 1 *)'{-h,--help}'[Show the manpage]' \
-	'(- 1 *)'{-v,--version}'[Print the command name and current version]' \
-	'1: :->cmds' \
-	'*:: :->args' \
-	&& ret=0
+_arguments -C \
+    '1: :->cmds' \
+    '*:: :->args' && ret=0
 
 case $state in
 	cmds)
 		_values "ztr command" \
 			"help[Show the manpage]" \
+			"--help[Show the manpage]" \
 			"clear-queue[Clear queue]" \
 			"clear-summary[Clear summary]" \
 			"queue[With arguments: enqueue a test; without arguments: print queue]" \
@@ -27,7 +24,9 @@ case $state in
 			"skip[Skip a test]" \
 			"summary[Pretty-print summary of counts]" \
 			"test[Run a test]" \
-			"version[Print the command name and current version]"
+			"version[Print the command name and current version]" \
+			"--version[Print the command name and current version]" \
+			"-v[Print the command name and current version]"
 		ret=0
 		;;
 	args)
