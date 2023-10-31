@@ -8,9 +8,10 @@ jobs:
   homebrew:
     name: Bump Homebrew formula
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      -
-        name: Bump formula
+      - name: Bump formula
         uses: mislav/bump-homebrew-formula-action@v3
         with:
           formula-name: zsh-test-runner
