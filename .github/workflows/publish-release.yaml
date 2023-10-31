@@ -3,6 +3,7 @@ name: Homebrew release
 on:
   release:
     types: [published]
+  workflow_dispatch:
 jobs:
   homebrew:
     name: Bump Homebrew formula
