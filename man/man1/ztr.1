@@ -1,16 +1,22 @@
-.TH "ZTR" 1 "September 23 2021" "ztr 1.2.0" "User Commands"
+.TH "ZTR" 1 "October 30 2023" "ztr 2.0.0" "User Commands"
 .SH NAME
 ztr \- zsh test runner
 
 .SH SYNOPSIS
 
-\fBztr clear\fR
+\fBztr clear-queue\fR
+
+\fBztr clear-summary\fR
+
+\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] [\fI\-\-skip\fR] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+
+\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]
 
 \fBztr skip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 \fBztr summary\fR
 
-\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]\fR
+\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 \fBabbr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
 
@@ -23,9 +29,36 @@ ztr \- zsh test runner
 .SH Commands
 
 .IP \(bu
-\fBclear\fR
+\fBztr clear-queue\fR
 
-Clear results.
+Clear the queue.
+
+.IP \(bu
+\fBclear-summary\fR
+
+Clear the summary.
+
+.IP \(bu
+\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] [\fI\-\-skip\fR] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+
+Without arguments: print the queued tests.
+
+With arguments: as `ztr test` but the test is queued rather than run.
+
+\fI\-\-skip\fR queues up a \fBskip\fR command rather than a \fBtest\fR command.
+
+.IP \(bu
+\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]
+
+Run all queued tests, and then clear the queue.
+
+\fI\-\-quiet runs all tests with the \fI\-\-quiet flag.
+
+\fI<name>\fR print a name above the batch results.
+
+If \fIZTR_BOOTSTRAP_FN\fR is defined, it is run before the first queued test.
+
+If \fIZTR_CLEAN_FN\fR is defined, it is run after the last queued test.
 
 .IP \(bu
 \fBskip \fI<arg>\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR [\fI<notes>\fR]]\fR
@@ -41,19 +74,23 @@ See \fBtest\fR for details about \fI\-\-quiet\fR, \fI<name>\fR, and \fI<notes>\f
 Pretty-print summary of results.
 
 .IP \(bu
-\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]\fR
+\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]\fR
 
 Test \fI<arg>\fR. Pretty-print result and notes unless "quiet".
 
 If your arg will error when passed to `eval`, quote it. If your arg has spaces, quote it.
 
-Optionally change zsh's emulation mode.
+Optionally change zsh\'s emulation mode.
 
 Optionally do not warn when a non-zsh shell is emulated.
 
 Optionally pass a name as a second parameter.
 
 Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
+
+If \fIZTR_SETUP_FN\fR is defined, \fIZTR_SETUP_FN $ZTR_SETUP_ARGS\fR runs before <fIarg\fR> is evaluated.
+
+If \fIZTR_TEARDOWN_FN\fR is defined, \fIZTR_TEARDOWN_FN $ZTR_TEARDOWN_ARGS\fR runs before <fIarg\fR> is evaluated.
 
 .IP \(bu
 \fBhelp\fR or \fB\-\-help\fR or \fB\-h\fR
@@ -69,13 +106,14 @@ Print the command name and current version.
 
 .SH LICENSE
 
-Licensed under CC BY-NC-SA 4.0 with a human rights condition from Hippocratic
-License 2.1. See the LICENSE file for details. Persons interested in using or
+zsh-test-runner by Henry Bley-Vroman is licensed under a license which is the unmodified text of CC BY-NC-SA 4.0 and the unmodified text of a Hippocratic License 3. It is not affiliated with Creative Commons or the Organization for Ethical Source. See the LICENSE file for details. Persons interested in using or
 adapting this work for commercial purposes should contact the author.
 
 .SH HOMEPAGE
 
-Explanations and examples can be found at https://github.com/olets/zsh-test-runner
+Documentation: https://zsh-test-runner.olets.dev
+
+Repo: https://github.com/olets/zsh-test-runner
 
 .SH AUTHORS
 
