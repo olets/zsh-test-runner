@@ -6,7 +6,7 @@
 # ------------------------------------------------------------------------------
 
 
-local curcontext="$curcontext" state line ret=1
+local state line ret=1
 
 _arguments -C \
     '1: :->cmds' \
@@ -60,10 +60,3 @@ case $state in
 esac
 
 return ret
-# Local Variables:
-# mode: Shell-Script
-# sh-indentation: 2
-# indent-tabs-mode: nil
-# sh-basic-offset: 2
-# End:
-# vim: ft=zsh sw=2 ts=2 et
