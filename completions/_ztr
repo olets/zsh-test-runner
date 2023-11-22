@@ -6,7 +6,7 @@
 # ------------------------------------------------------------------------------
 
 
-local state line ret=1
+local curcontext="$curcontext" state line ret=1
 
 _arguments -C \
     '1: :->cmds' \
@@ -60,3 +60,5 @@ case $state in
 esac
 
 return ret
+
+# vim: ft=zsh
