@@ -6,7 +6,10 @@
 # ------------------------------------------------------------------------------
 
 
-local state line ret=1
+local state line
+local -i ret
+
+ret=1
 
 _arguments -C \
     '1: :->cmds' \
