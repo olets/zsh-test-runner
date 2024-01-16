@@ -6,7 +6,7 @@
 # ------------------------------------------------------------------------------
 
 
-local curcontext="$curcontext" state line ret=1
+local state line ret=1
 
 _arguments -C \
     '1: :->cmds' \
