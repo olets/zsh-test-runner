@@ -8,19 +8,19 @@ ztr \- zsh test runner
 
 \fBztr clear-summary\fR
 
-\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] [\fI\-\-skip\fR] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+\fBztr queue\fR [([((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] | \fI\-\-skip\fR [(\fI\-\-quiet | \-q\fR)]) <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]]\fR
 
-\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]
+\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [<\fIname\fR>]
 
-\fBztr skip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI<name>\fR [\fI<notes>\fR]]\fR
+\fBztr skip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]\fR
 
 \fBztr summary\fR
 
-\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]\fR
+\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] [<\fIname\fR> [<\fInotes\fR>]]\fR
 
-\fBabbr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
+\fBztr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
 
-\fBabbr\fR (\fBversion | \-\-version\fR | \fB\-v\fR)
+\fBztr\fR (\fBversion | \-\-version\fR | \fB\-v\fR)
 
 .SH DESCRIPTION
 
@@ -29,7 +29,7 @@ ztr \- zsh test runner
 .SH Commands
 
 .IP \(bu
-\fBztr clear-queue\fR
+\fBclear-queue\fR
 
 Clear the queue.
 
@@ -39,7 +39,7 @@ Clear the queue.
 Clear the summary.
 
 .IP \(bu
-\fBztr queue\fR [[(\fI\-\-quiet | \-q\fR)] [\fI\-\-skip\fR] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]]\fR
+\fBqueue\fR [([((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] | \fI\-\-skip\fR [(\fI\-\-quiet | \-q\fR)]) <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]]\fR
 
 Without arguments: print the queued tests.
 
@@ -48,25 +48,24 @@ With arguments: as `ztr test` but the test is queued rather than run.
 \fI\-\-skip\fR queues up a \fBskip\fR command rather than a \fBtest\fR command.
 
 .IP \(bu
-\fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR]
+\fBrun-queue\fR [(\fI\-\-quiet | \-q\fR)] [<\fIname\fR>]
 
 Run all queued tests, and then clear the queue.
 
-\fI\-\-quiet runs all tests with the \fI\-\-quiet flag.
+\fI\-\-quiet\fR runs all tests with the \fI\-\-quiet\fR flag.
 
-\fI<name>\fR print a name above the batch results.
+<\fIname\fR> print a name above the batch results.
 
 If \fIZTR_BOOTSTRAP_FN\fR is defined, it is run before the first queued test.
 
 If \fIZTR_CLEAN_FN\fR is defined, it is run after the last queued test.
 
 .IP \(bu
-\fBskip \fI<arg>\fR [(\fI\-\-quiet | \-q\fR)] [\fI<name>\fR [\fI<notes>\fR]]\fR
+\fBskip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]\fR
 
 Skip <arg>.
 
-See \fBtest\fR for details about \fI\-\-quiet\fR, \fI<name>\fR, and \fI<notes>\fR.
-
+See \fBtest\fR for details about \fI\-\-quiet\fR, <\fIname\fR>, and <\fInotes\fR>.
 
 .IP \(bu
 \fBsummary\fR
@@ -74,23 +73,23 @@ See \fBtest\fR for details about \fI\-\-quiet\fR, \fI<name>\fR, and \fI<notes>\f
 Pretty-print summary of results.
 
 .IP \(bu
-\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate <shell>\fR] [\fI\-\-quiet\-emulate\fR] [\fI<name>\fR [\fI<notes>\fR]]\fR
+\fBtest\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] [<\fIname\fR> [<\fInotes\fR>]]\fR
 
-Test \fI<arg>\fR. Pretty-print result and notes unless "quiet".
+Test <\fIarg\fR>. Pretty-print result and notes unless "quiet".
 
 If your arg will error when passed to `eval`, quote it. If your arg has spaces, quote it.
 
-Optionally change zsh\'s emulation mode.
+\fI\-\-emulate\fR <\fIshell\fR> changes zsh\'s emulation mode. By default, the specified shell will be called out in the command output,
 
-Optionally do not warn when a non-zsh shell is emulated.
+\fI\-\-quiet\-emulate\fR keeps the \fI\-\-emulate\fR <\fIshell\fR>'s <\fIshell\fR> out of the command output.
 
-Optionally pass a name as a second parameter.
+Optionally pass a <\fIname\fR> as a second parameter.
 
-Optionally pass notes as a third parameter. For example, noting dependencies can help with troubleshooting. In the output notes are indented.
+Optionally pass <\fInotes\fR> as a third parameter (requires that you also pass a <\fIname\fR> as a second parameter). For example, noting dependencies can help with troubleshooting. In the output notes are indented.
 
-If \fIZTR_SETUP_FN\fR is defined, \fIZTR_SETUP_FN $ZTR_SETUP_ARGS\fR runs before <fIarg\fR> is evaluated.
+If \fIZTR_SETUP_FN\fR is defined, \fIZTR_SETUP_FN $ZTR_SETUP_ARGS\fR runs before <\fIarg\fR> is evaluated.
 
-If \fIZTR_TEARDOWN_FN\fR is defined, \fIZTR_TEARDOWN_FN $ZTR_TEARDOWN_ARGS\fR runs before <fIarg\fR> is evaluated.
+If \fIZTR_TEARDOWN_FN\fR is defined, \fIZTR_TEARDOWN_FN $ZTR_TEARDOWN_ARGS\fR runs before <\fIarg\fR> is evaluated.
 
 .IP \(bu
 \fBhelp\fR or \fB\-\-help\fR or \fB\-h\fR
