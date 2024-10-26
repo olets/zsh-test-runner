@@ -365,11 +365,6 @@ ztr() {
 				flags+=( "--emulate $__ztr_emulation_mode_requested" )
 				shift 2
 				;;
-			"--quiet-emulate")
-				__ztr_quiet_emulation_mode=1
-				flags+=( "--quiet-emulate" )
-				shift
-				;;
 			"--help"|\
 			"-h"|\
 			"help")
@@ -383,6 +378,11 @@ ztr() {
 			"--quiet"|"-q")
 				__ztr_quiet=1
 				flags+=( "--quiet" )
+				shift
+				;;
+			"--quiet-emulate")
+				__ztr_quiet_emulation_mode=1
+				flags+=( "--quiet-emulate" )
 				shift
 				;;
 			"--version"|\
