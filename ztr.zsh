@@ -127,6 +127,12 @@ __ztr_init() { # Set variables.
 		ZTR_QUIET=${ZTR_QUIET:-0}
 	typeset -gi ZTR_QUIET_EMULATION_MODE >/dev/null && \
 		ZTR_QUIET_EMULATION_MODE=${ZTR_QUIET_EMULATION_MODE:-0}
+	typeset -gi ZTR_QUIET_FAIL >/dev/null && \
+		ZTR_QUIET_FAIL=${ZTR_QUIET_FAIL:-0}
+	typeset -gi ZTR_QUIET_PASS >/dev/null && \
+		ZTR_QUIET_PASS=${ZTR_QUIET_PASS:-0}
+	typeset -gi ZTR_QUIET_SKIP >/dev/null && \
+		ZTR_QUIET_SKIP=${ZTR_QUIET_SKIP:-0}
 
 	# Global read-only string variables
 	typeset -g +r ZTR_PATH && \
@@ -231,7 +237,7 @@ __ztr_skip() { # Skip <arg>.
 	(( ZTR_RESULTS[skipped]++ ))
 	typeset -gAr ZTR_RESULTS
 
-	if (( ! __ztr_quiet )); then
+	if (( ! __ztr_quiet && ! __ztr_quiet_skip )); then
 		'builtin' 'echo' - "${color_skipped}SKIP$color_default ${name:-$arg}${notes:+\\n    $notes}"
 	fi
 }
@@ -315,20 +321,24 @@ __ztr_test() { # Test <arg> [<name> [<notes>]]. Pretty-print result and notes un
 	__ztr_teardown
 
 	if (( exit_code )); then
-		result="${color_failed}FAIL$color_default"
+		if (( ! __ztr_quiet_fail )); then
+			result="${color_failed}FAIL$color_default"
+		fi
 
 		typeset -gA +r ZTR_RESULTS
 		(( ZTR_RESULTS[failed]++ ))
 		typeset -gAr ZTR_RESULTS
 	else
-		result="${color_passed}PASS$color_default"
+		if (( ! __ztr_quiet_pass )); then
+			result="${color_passed}PASS$color_default"
+		fi
 
 		typeset -gA +r ZTR_RESULTS
 		(( ZTR_RESULTS[passed]++ ))
 		typeset -gAr ZTR_RESULTS
 	fi
 
-	if (( ! __ztr_quiet )); then
+	if [[ -n $result ]] && (( ! __ztr_quiet )); then
 		'builtin' 'print' "$result ${name:-$arg}${notes:+\\n    $notes}"
 
 		(( ! __ztr_quiet_emulation_mode )) && [[ $__ztr_emulation_mode_used != zsh ]] \
@@ -352,11 +362,14 @@ ztr() {
 	local -a args exit_code flags
 	local -i clear_queue clear_summary queue run_queue run_test skip_test summary
 	typeset -g __ztr_emulation_mode_requested __ztr_emulation_mode_used
-	typeset -gi __ztr_queue_skip __ztr_quiet __ztr_quiet_emulation_mode
+	typeset -gi __ztr_queue_skip __ztr_quiet __ztr_quiet_emulation_mode __ztr_quiet_fail __ztr_quiet_pass __ztr_quiet_skip
 
 	__ztr_emulation_mode_requested=$ZTR_EMULATION_MODE
-	__ztr_quiet=$ZTR_QUIET
 	__ztr_quiet_emulation_mode=$ZTR_QUIET_EMULATION_MODE
+	__ztr_quiet_fail=$ZTR_QUIET_FAIL
+	__ztr_quiet_pass=$ZTR_QUIET_PASS
+	__ztr_quiet_skip=$ZTR_QUIET_SKIP
+	__ztr_quiet=$ZTR_QUIET
 
 	while (( $# )); do
 		case $1 in
@@ -383,6 +396,21 @@ ztr() {
 			"--quiet-emulate")
 				__ztr_quiet_emulation_mode=1
 				flags+=( "--quiet-emulate" )
+				shift
+				;;
+			"--quiet-fail")
+				__ztr_quiet_fail=1
+				flags+=( "--quiet-fail" )
+				shift
+				;;
+			"--quiet-pass")
+				__ztr_quiet_pass=1
+				flags+=( "--quiet-pass" )
+				shift
+				;;
+			"--quiet-skip")
+				__ztr_quiet_skip=1
+				flags+=( "--quiet-skip" )
 				shift
 				;;
 			"--version"|\

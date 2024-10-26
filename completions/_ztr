@@ -45,7 +45,8 @@ case $state in
 				# [(--quiet | -q)] <arg> [<name> [<notes>]]
 				_arguments \
 					"(--quiet)--quiet[Silence output]" \
-					"(-q)-q[Silence output]"
+					"(-q)-q[Silence output]" \
+					"(--quiet-skip)-quiet-skip[Silence output]"
 				ret=0
 				;;
 			queue|\
@@ -55,6 +56,8 @@ case $state in
 					"(--emulate)--emulate[Emulate <shell>]" \
 					"(--quiet)--quiet[Silence output]" \
 					"(-q)-q[Silence output]" \
+					"(--quiet-fail)--quiet-fail[Silence output if test fails]" \
+					"(--quiet-pass)--quiet-pass[Silence output if test passes]" \
 					"(--quiet-emulate)--quiet-emulate[Do not warn when a non-zsh shell is emulated.]"
 				ret=0
 				;;

@@ -8,15 +8,15 @@ ztr \- zsh test runner
 
 \fBztr clear-summary\fR
 
-\fBztr queue\fR [([((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] | \fI\-\-skip\fR [(\fI\-\-quiet | \-q\fR)]) <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]]\fR
+\fBztr queue\fR [([((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] | \fI\-\-skip\fR [((\fI\-\-quiet | \-q\fR) | \fI\-\-\quiet\-skip\fR)]) <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]]\fR
 
 \fBztr run-queue\fR [(\fI\-\-quiet | \-q\fR)] [<\fIname\fR>]
 
-\fBztr skip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]\fR
+\fBztr skip\fR [((\fI\-\-quiet | \-q\fR) | \fI\-\-quiet\-skip\fR)] <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]\fR
 
 \fBztr summary\fR
 
-\fBztr test\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] [<\fIname\fR> [<\fInotes\fR>]]\fR
+\fBztr test\fR [((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] <\fIarg\fR> [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] [<\fIname\fR> [<\fInotes\fR>]]\fR
 
 \fBztr\fR (\fBhelp | \-\-help\fR | \fB\-h\fR)
 
@@ -39,13 +39,13 @@ Clear the queue.
 Clear the summary.
 
 .IP \(bu
-\fBqueue\fR [([((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] | \fI\-\-skip\fR [(\fI\-\-quiet | \-q\fR)]) <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]]\fR
+\fBqueue\fR [([((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] | \fI\-\-skip\fR [((\fI\-\-quiet | \-q\fR) | \fI\-\-\quiet\-skip\fR)]) <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]]\fR
 
 Without arguments: print the queued tests.
 
-With arguments: as `ztr test` but the test is queued rather than run.
+With arguments but not \fI\-\-skip\fR: as \fBtest\fR but queueing rather than running immediately.
 
-\fI\-\-skip\fR queues up a \fBskip\fR command rather than a \fBtest\fR command.
+With arguments and \fI\-\-skip\fR: as \fBskip\fR but queueing rather than running immediately.
 
 .IP \(bu
 \fBrun-queue\fR [(\fI\-\-quiet | \-q\fR)] [<\fIname\fR>]
@@ -61,9 +61,11 @@ If \fIZTR_BOOTSTRAP_FN\fR is defined, it is run before the first queued test.
 If \fIZTR_CLEAN_FN\fR is defined, it is run after the last queued test.
 
 .IP \(bu
-\fBskip\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]\fR
+\fBskip\fR [((\fI\-\-quiet | \-q\fR) | \fI\-\-quiet\-skip\fR)] <\fIarg\fR> [<\fIname\fR> [<\fInotes\fR>]]\fR
 
 Skip <arg>.
+
+Pass \fI\-\-quiet\-skip\fR to output nothing. Set \fIZTR_QUIET_SKIP=1\fR to make this the default.
 
 See \fBtest\fR for details about \fI\-\-quiet\fR, <\fIname\fR>, and <\fInotes\fR>.
 
@@ -73,7 +75,7 @@ See \fBtest\fR for details about \fI\-\-quiet\fR, <\fIname\fR>, and <\fInotes\fR
 Pretty-print summary of results.
 
 .IP \(bu
-\fBtest\fR [(\fI\-\-quiet | \-q\fR)] <\fIarg\fR> [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] [<\fIname\fR> [<\fInotes\fR>]]\fR
+\fBtest\fR [((\fI\-\-quiet | \-q\fR) | [\fI\-\-quiet\-fail\fR] [\fI\-\-quiet\-pass\fR])] <\fIarg\fR> [\fI\-\-emulate\fR <\fIshell\fR>] [\fI\-\-quiet\-emulate\fR] [<\fIname\fR> [<\fInotes\fR>]]\fR
 
 Test <\fIarg\fR>. Pretty-print result and notes unless "quiet".
 
@@ -82,6 +84,12 @@ If your arg will error when passed to `eval`, quote it. If your arg has spaces, 
 \fI\-\-emulate\fR <\fIshell\fR> changes zsh\'s emulation mode. By default, the specified shell will be called out in the command output,
 
 \fI\-\-quiet\-emulate\fR keeps the \fI\-\-emulate\fR <\fIshell\fR>'s <\fIshell\fR> out of the command output.
+
+Pass \fI\-\-quiet\-fail\fR to output nothing if the test fails. Set \fIZTR_QUIET_FAIL=1\fR to make this the default.
+
+Pass \fI\-\-quiet\-pass\fR to output nothing if the test passes. Set \fIZTR_QUIET_PASS=1\fR to make this the default.
+
+Pass \fI\-\-quiet\fR to output nothing regardless of the result.
 
 Optionally pass a <\fIname\fR> as a second parameter.
 
