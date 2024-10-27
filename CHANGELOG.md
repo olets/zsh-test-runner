@@ -1,3 +1,11 @@
+# [v2.1.0](https://github.com/olets/zsh-test-runner/compare/v2.0.0...v2.1.0) (2024-10-26)
+
+### Features
+
+* **skip,test:** support hiding output by result category ([63eb049](https://github.com/olets/zsh-test-runner/commit/63eb049d3c4dd68e89823c4f6a3d04450862a290))
+
+
+
 # [v2.0.0](https://github.com/olets/zsh-test-runner/compare/v1.2.0...v2.0.0) (2023-10-12)
 
 v2.0.0 introduces queues, setup and teardown functions, renames `clear` to `clear-summary`, makes a few fixes and other changes, and updates the Hippocratic License portion of the license.
