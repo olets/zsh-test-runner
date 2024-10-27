@@ -1,3 +1,12 @@
+# [v2.1.1](https://github.com/olets/zsh-test-runner/compare/v2.1.0...v2.1.1) (2024-10-26)
+
+
+### Bug Fixes
+
+* **manpage:** fix release date ([7f3a76d](https://github.com/olets/zsh-test-runner/commit/7f3a76d8de689a501d2a1f8b8b2127e0d0435e15))
+
+
+
 # [v2.1.0](https://github.com/olets/zsh-test-runner/compare/v2.0.0...v2.1.0) (2024-10-26)
 
 ### Features

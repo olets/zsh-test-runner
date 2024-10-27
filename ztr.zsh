@@ -2,7 +2,7 @@
 
 # Straight-forward tests and coverage reports for zsh and —under zsh's emulation— csh, ksh, and sh
 # https://github.com/olets/zsh-test-runner
-# v2.0.0
+# v2.1.1
 # Copyright (c) 2021-present Henry Bley-Vroman
 
 __ztr_bootstrap() {
@@ -139,7 +139,7 @@ __ztr_init() { # Set variables.
 		ZTR_PATH=$__ztr_dir/ztr.zsh && \
 		typeset -gr ZTR_PATH
 	typeset -g +r ZTR_VERSION >/dev/null && \
-		ZTR_VERSION=2.0.0 && \
+		ZTR_VERSION=2.1.1 && \
 		typeset -gr ZTR_VERSION
 }
 
